@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:psychotherapy_chatbot/constants/colors.dart';
 import 'package:psychotherapy_chatbot/views/bottom_navigation/chat_view.dart';
 import 'package:psychotherapy_chatbot/views/bottom_navigation/explore_view.dart';
+import 'package:psychotherapy_chatbot/views/bottom_navigation/group_view.dart';
 import 'package:psychotherapy_chatbot/views/bottom_navigation/track_view.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -13,7 +14,12 @@ class NavBody extends StatefulWidget {
 }
 
 class _NavBodyState extends State<NavBody> {
-  final List<Widget> _children = [ExploreView(), ChatView(), TrackView()];
+  final List<Widget> _children = [
+    ExploreView(),
+    ChatView(),
+    TrackView(),
+    GroupView()
+  ];
   final List<PersistentBottomNavBarItem> _navBarItems = [
     PersistentBottomNavBarItem(
       icon: const Icon(Icons.healing_outlined),
@@ -30,6 +36,12 @@ class _NavBodyState extends State<NavBody> {
     PersistentBottomNavBarItem(
       icon: const Icon(Icons.track_changes_outlined),
       title: 'Track',
+      inactiveColorPrimary: Colors.black,
+      activeColorPrimary: blue,
+    ),
+    PersistentBottomNavBarItem(
+      icon: const Icon(Icons.groups_outlined),
+      title: 'Group',
       inactiveColorPrimary: Colors.black,
       activeColorPrimary: blue,
     ),
