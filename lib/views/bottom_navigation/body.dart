@@ -13,7 +13,7 @@ class NavBody extends StatefulWidget {
 }
 
 class _NavBodyState extends State<NavBody> {
-  final List<Widget> _children = const [ExploreView(), ChatView(), TrackView()];
+  final List<Widget> _children = [ExploreView(), ChatView(), TrackView()];
   final List<PersistentBottomNavBarItem> _navBarItems = [
     PersistentBottomNavBarItem(
       icon: const Icon(Icons.healing_outlined),
@@ -62,7 +62,7 @@ class _NavBodyState extends State<NavBody> {
         curve: Curves.ease,
         duration: Duration(milliseconds: 200),
       ),
-      navBarStyle: NavBarStyle.style1,
+      navBarStyle: NavBarStyle.style2,
     );
   }
 }

@@ -28,7 +28,7 @@ class RouteGenerator {
         return _getPageRoute(const NavBody());
 
       case explore:
-        return _getPageRoute(const ExploreView());
+        return _getPageRoute(ExploreView());
       case chatui:
         return _getPageRoute(const ChatView());
 
