@@ -22,7 +22,7 @@ class _NavBodyState extends State<NavBody> {
   ];
   final List<PersistentBottomNavBarItem> _navBarItems = [
     PersistentBottomNavBarItem(
-      icon: const Icon(Icons.healing_outlined),
+      icon: const Icon(Icons.explore_outlined),
       title: 'Explore',
       inactiveColorPrimary: Colors.black,
       activeColorPrimary: blue,

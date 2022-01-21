@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:psychotherapy_chatbot/constants/controllers.dart';
 import 'package:psychotherapy_chatbot/models/article.dart';
 import 'package:psychotherapy_chatbot/router/route_generator.dart';
@@ -20,8 +21,10 @@ class ExploreView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: Colors.white));
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
         title: Text(
           "Explore",
@@ -44,7 +47,7 @@ class ExploreView extends StatelessWidget {
           children: [
             Container(
               margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.25,
               child: Center(
                 child: Text(
                   "Quote of the Day",
@@ -118,12 +121,11 @@ class ArticleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 20, left: 15, right: 15, top: 10),
-      height: MediaQuery.of(context).size.height * 0.55,
       child: Card(
-        semanticContainer: true,
+        elevation: 3,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         child: Padding(
-          padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
               Card(
