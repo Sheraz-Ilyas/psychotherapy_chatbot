@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:psychotherapy_chatbot/constants/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:psychotherapy_chatbot/constants/controllers.dart';
@@ -33,6 +34,8 @@ class _LandingViewState extends State<LandingView> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarColor: blue));
     return Scaffold(
         backgroundColor: blue,
         body: SingleChildScrollView(

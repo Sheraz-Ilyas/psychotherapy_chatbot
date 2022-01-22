@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
+          scaffoldBackgroundColor: Colors.grey[50],
           textTheme: const TextTheme(
             bodyText1: TextStyle(
                 color: Colors.black, fontSize: 16, fontFamily: 'Facundo'),

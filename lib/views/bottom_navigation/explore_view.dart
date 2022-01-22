@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:psychotherapy_chatbot/constants/controllers.dart';
+import 'package:psychotherapy_chatbot/controllers/article_data_temp.dart';
 import 'package:psychotherapy_chatbot/models/article.dart';
 import 'package:psychotherapy_chatbot/router/route_generator.dart';
 
@@ -22,9 +23,8 @@ class ExploreView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Colors.white));
+        const SystemUiOverlayStyle(statusBarColor: Colors.white));
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
         title: Text(
           "Explore",
@@ -46,16 +46,46 @@ class ExploreView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              alignment: Alignment.topLeft,
+              padding: const EdgeInsets.only(
+                  top: 20, bottom: 5, left: 30, right: 30),
+              child: Text(
+                "Quote of the Day",
+                style: Theme.of(context).textTheme.headline1,
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
               height: MediaQuery.of(context).size.height * 0.25,
-              child: Center(
-                child: Text(
-                  "Quote of the Day",
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline1!
-                      .copyWith(color: Colors.white, fontSize: 22),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "“You cannot always control what goes on outside, but you can always control what goes on inside.”",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontStyle: FontStyle.italic),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: Text(
+                          "Wayne Dyer",
+                          textAlign: TextAlign.center,
+                          style:
+                              Theme.of(context).textTheme.bodyText1!.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                  ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               decoration: BoxDecoration(
@@ -64,11 +94,20 @@ class ExploreView extends StatelessWidget {
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   colorFilter: ColorFilter.mode(
-                      Colors.black.withOpacity(0.5), BlendMode.dstATop),
+                      Colors.black.withOpacity(0.6), BlendMode.dstATop),
                   image: const AssetImage(
                     "assets/images/quote.jpg",
                   ),
                 ),
+              ),
+            ),
+            Container(
+              alignment: Alignment.topLeft,
+              padding: const EdgeInsets.only(
+                  top: 20, bottom: 5, left: 30, right: 30),
+              child: Text(
+                "For You",
+                style: Theme.of(context).textTheme.headline1,
               ),
             ),
             Container(
@@ -89,22 +128,14 @@ class ExploreView extends StatelessWidget {
             ),
             Container(
               alignment: Alignment.topLeft,
-              padding: const EdgeInsets.only(top: 20, left: 30, right: 30),
+              padding: const EdgeInsets.only(
+                  top: 20, bottom: 5, left: 30, right: 30),
               child: Text(
                 "Article of the Day",
                 style: Theme.of(context).textTheme.headline1,
               ),
             ),
-            ArticleCard(
-              article: Article(
-                  id: 1,
-                  title: "Nutritional Strategies to Ease Anxiety",
-                  author: "Uma Naidoo",
-                  datePosted: "2 hours ago",
-                  content: "",
-                  image: "assets/images/brain_training_1.jpg",
-                  category: "Health    -    Diet"),
-            )
+            ArticleCard(article: articleData)
           ],
         ),
       ),
@@ -119,63 +150,74 @@ class ArticleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 20, left: 15, right: 15, top: 10),
-      child: Card(
-        elevation: 3,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Card(
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.asset(
-                    article?.image ?? "",
-                    fit: BoxFit.cover,
+    return InkWell(
+      onTap: () {
+        navigationController.navigateWithArg(articleDetails, {
+          "article": article,
+        });
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 20, left: 15, right: 15),
+        child: Card(
+          elevation: 3,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Card(
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset(
+                      article?.image ?? "",
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                alignment: Alignment.bottomLeft,
-                child: Text(article?.category ?? "",
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        color: Colors.black38, fontWeight: FontWeight.bold)),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                alignment: Alignment.bottomLeft,
-                child: Text(article?.title ?? "",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline1!
-                        .copyWith(fontSize: 20)),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    alignment: Alignment.bottomLeft,
-                    child: Text("By ${article?.author}",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline1!
-                            .copyWith(fontSize: 14)),
-                  ),
-                  Container(
-                    alignment: Alignment.bottomLeft,
-                    child: Text(article?.datePosted ?? "",
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black38)),
-                  )
-                ],
-              ),
-            ],
+                Container(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(article?.category ?? "",
+                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          color: Colors.black38, fontWeight: FontWeight.bold)),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  alignment: Alignment.bottomLeft,
+                  child: Text(article?.title ?? "",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline1!
+                          .copyWith(fontSize: 20)),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      alignment: Alignment.bottomLeft,
+                      child: Text("By ${article?.author}",
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline1!
+                              .copyWith(fontSize: 14)),
+                    ),
+                    Container(
+                      alignment: Alignment.bottomLeft,
+                      child: Text(article?.datePosted ?? "",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black38)),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

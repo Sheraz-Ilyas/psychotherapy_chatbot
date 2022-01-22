@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:psychotherapy_chatbot/models/article.dart';
 
 class NavigationController extends GetxController {
   final sheetController = PageController(
@@ -13,8 +14,9 @@ class NavigationController extends GetxController {
     return navigationKey.currentState!.pushNamed(routeName);
   }
 
-  Future<dynamic> navigateWithArg(String routeName) {
-    return navigationKey.currentState!.pushNamed(routeName);
+  Future<dynamic> navigateWithArg(String routeName, dynamic arguments) {
+    return navigationKey.currentState!
+        .pushNamed(routeName, arguments: arguments);
   }
 
   Future<dynamic>? getOffAll(String routeName) {
