@@ -65,7 +65,7 @@ class BrainCard extends StatelessWidget {
                   child: Text(brainExcercise!.title!,
                       style: Theme.of(context).textTheme.headline1),
                 ),
-                const Divider(),
+                const Divider(height: 1),
                 Expanded(
                   child: ListView.builder(
                     itemCount: brainExcercise!.steps!.length,
