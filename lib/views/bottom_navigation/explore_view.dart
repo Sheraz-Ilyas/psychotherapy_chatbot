@@ -18,7 +18,7 @@ class ExploreView extends StatelessWidget {
     "Meditation",
     "Sleep Sounds"
   ];
-  List<String> routes = [brainTrainingList, meditationTimer, ''];
+  List<String> routes = [brainTrainingList, meditationTimer, sleepSounds];
 
   @override
   Widget build(BuildContext context) {

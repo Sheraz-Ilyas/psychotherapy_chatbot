@@ -8,7 +8,9 @@ import 'package:psychotherapy_chatbot/views/bottom_navigation/explore_view.dart'
 import 'package:psychotherapy_chatbot/views/explore/article_details.dart';
 import 'package:psychotherapy_chatbot/views/explore/brain_training_list.dart';
 import 'package:psychotherapy_chatbot/views/explore/medidation_timer.dart';
+import 'package:psychotherapy_chatbot/views/explore/sleep_sounds.dart';
 import 'package:psychotherapy_chatbot/views/landing_view.dart';
+import 'package:psychotherapy_chatbot/views/track/add_journal_view.dart';
 
 const String initialRoute = '/';
 const String authBody = '/auth-body';
@@ -18,6 +20,8 @@ const String chatui = '/chat-ui';
 const String articleDetails = '/article-details';
 const String brainTrainingList = '/brain-training-list';
 const String meditationTimer = '/meditation-timer';
+const String sleepSounds = '/sleep-sounds';
+const String addJournal = '/add-journal';
 
 // ignore: todo
 // TODO : ROUTES GENERATOR CLASS THAT CONTROLS THE FLOW OF NAVIGATION/ROUTING
@@ -31,7 +35,7 @@ class RouteGenerator {
     }
     switch (settings.name) {
       case initialRoute:
-        return _getPageRoute(ExploreView());
+        return _getPageRoute(const NavBody());
       case authBody:
         return _getPageRoute(const AuthBody());
 
@@ -52,7 +56,13 @@ class RouteGenerator {
         return _getPageRoute(BrainTrainingList());
 
       case meditationTimer:
-        return _getPageRoute(MeditationTimer());
+        return _getPageRoute(const MeditationTimer());
+
+      case sleepSounds:
+        return _getPageRoute(const SleepSounds());
+
+      case addJournal:
+        return _getPageRoute(const AddJournalView());
 
       default:
         return _errorRoute();

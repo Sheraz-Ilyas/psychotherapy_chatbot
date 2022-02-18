@@ -40,6 +40,7 @@ dependencies:
   carousel_slider: ^4.0.0
   persistent_bottom_nav_bar: ^4.0.2
   audioplayers: ^0.20.1
+  flutter_emoji: ">= 2.0.0"
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +68,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/brain_cards/
+    - assets/images/moods/
     - assets/audio/
 
   # An image asset can refer to one or more resolution-specific "variants", see
