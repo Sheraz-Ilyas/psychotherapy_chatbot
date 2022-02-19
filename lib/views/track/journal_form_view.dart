@@ -6,6 +6,7 @@ import 'package:psychotherapy_chatbot/constants/controllers.dart';
 import 'package:psychotherapy_chatbot/controllers/journal_controller.dart';
 import 'package:psychotherapy_chatbot/models/journal.dart';
 import 'package:uuid/uuid.dart';
+import 'package:intl/intl.dart';
 
 class JournalFormView extends StatefulWidget {
   JournalFormView({Key? key, this.journal}) : super(key: key);
@@ -61,6 +62,7 @@ class _JournalFormViewState extends State<JournalFormView> {
             'Journal Added Successfully',
             style: Theme.of(context).textTheme.bodyText1,
           ),
+          backgroundColor: Colors.white,
           snackPosition: SnackPosition.BOTTOM,
           duration: const Duration(seconds: 2),
         );
@@ -88,6 +90,7 @@ class _JournalFormViewState extends State<JournalFormView> {
             'Journal Updated Successfully',
             style: Theme.of(context).textTheme.bodyText1,
           ),
+          backgroundColor: Colors.white,
           snackPosition: SnackPosition.BOTTOM,
           duration: const Duration(seconds: 2),
         );
@@ -116,6 +119,83 @@ class _JournalFormViewState extends State<JournalFormView> {
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
         actions: [
+          widget.journal != null
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(primary: Colors.white),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Delete Journal',
+                                  style: deleteJournal(context)
+                                      .headline1!
+                                      .copyWith(fontSize: 20)),
+                              content: Text(
+                                'Are you sure you want to delete this journal?',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              actions: [
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                    textStyle:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                  child: const Text('Cancel'),
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text('Delete'),
+                                  style: TextButton.styleFrom(
+                                    primary: Colors.red,
+                                    textStyle:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                  onPressed: () {
+                                    journalController.journalData
+                                        .removeWhere((element) {
+                                      return element.id == widget.journal!.id;
+                                    });
+                                    if (journalController.journalData.isEmpty) {
+                                      journalController.doneForToday.value =
+                                          false;
+                                    } else {
+                                      DateTime? lastJournalDate =
+                                          journalController
+                                              .journalData.last.date;
+                                      if (DateFormat('MMMM d, yyyy')
+                                              .format(lastJournalDate!) ==
+                                          DateFormat('MMMM d, yyyy')
+                                              .format(DateTime.now())) {
+                                        journalController.doneForToday.value =
+                                            true;
+                                      } else {
+                                        journalController.doneForToday.value =
+                                            false;
+                                      }
+                                    }
+                                    Get.back();
+                                    navigationController.goBack();
+                                  },
+                                )
+                              ],
+                            );
+                          });
+                    },
+                    child: Text(
+                      'Delete',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline1!
+                          .copyWith(color: Colors.red, fontSize: 14),
+                    ),
+                  ),
+                )
+              : Container(),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             child: ElevatedButton(
@@ -265,6 +345,10 @@ class _JournalFormViewState extends State<JournalFormView> {
         ),
       ),
     );
+  }
+
+  TextTheme deleteJournal(BuildContext context) {
+    return Theme.of(context).textTheme;
   }
 }
 

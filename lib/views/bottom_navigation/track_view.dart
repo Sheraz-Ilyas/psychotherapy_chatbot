@@ -18,6 +18,22 @@ class _TrackViewState extends State<TrackView> {
   JournalController journalController = Get.put(JournalController());
 
   @override
+  void initState() {
+    if (journalController.journalData.isEmpty) {
+      journalController.doneForToday.value = false;
+    } else {
+      DateTime? lastJournalDate = journalController.journalData.last.date;
+      if (DateFormat('MMMM d, yyyy').format(lastJournalDate!) ==
+          DateFormat('MMMM d, yyyy').format(DateTime.now())) {
+        journalController.doneForToday.value = true;
+      } else {
+        journalController.doneForToday.value = false;
+      }
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -31,43 +47,63 @@ class _TrackViewState extends State<TrackView> {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: IconButton(
-              icon: const Icon(Icons.add, size: 30),
-              onPressed: () {
-                navigationController.navigateWithArg(
-                    addJournal, {'editJournal': null}).then((value) {
-                  setState(() {});
-                });
-              },
+            padding: const EdgeInsets.only(right: 20),
+            child: Obx(
+              () => journalController.doneForToday.isTrue
+                  ? InkWell(
+                      onTap: () {
+                        Get.snackbar(
+                          '',
+                          '',
+                          messageText: Text(
+                            'You have already done your journal for today!',
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
+                          snackPosition: SnackPosition.TOP,
+                          backgroundColor: Colors.white,
+                          duration: const Duration(seconds: 2),
+                        );
+                      },
+                      child: const Icon(Icons.check_outlined, size: 30))
+                  : IconButton(
+                      icon: const Icon(Icons.add, size: 30),
+                      onPressed: () {
+                        navigationController.navigateWithArg(
+                            addJournal, {'editJournal': null}).then((value) {
+                          setState(() {
+                            journalController.doneForToday.value = true;
+                          });
+                        });
+                      },
+                    ),
             ),
           ),
         ],
       ),
-      body: journalController.journalData.isEmpty
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    'assets/images/empty_journal.jpg',
-                    width: 200,
-                    height: 200,
-                  ),
-                  Text(
-                    "Start Writing Your Journal",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline1!
-                        .copyWith(fontSize: 16, color: Colors.grey),
-                  ),
-                ],
-              ),
-            )
-          : Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: Obx(
-                () => ListView.builder(
+      body: Obx(
+        () => journalController.journalData.isEmpty
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/empty_journal.jpg',
+                      width: 200,
+                      height: 200,
+                    ),
+                    Text(
+                      "Start Writing Your Journal",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline1!
+                          .copyWith(fontSize: 16, color: Colors.grey),
+                    ),
+                  ],
+                ),
+              )
+            : Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: ListView.builder(
                     itemCount: journalController.journalData.length,
                     itemBuilder: (context, index) {
                       return JournalCard(
@@ -75,7 +111,7 @@ class _TrackViewState extends State<TrackView> {
                       );
                     }),
               ),
-            ),
+      ),
     );
   }
 }
