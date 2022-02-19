@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_emoji/flutter_emoji.dart';
+import 'package:get/get.dart';
 import 'package:psychotherapy_chatbot/constants/colors.dart';
+import 'package:psychotherapy_chatbot/constants/controllers.dart';
+import 'package:psychotherapy_chatbot/controllers/journal_controller.dart';
 import 'package:psychotherapy_chatbot/models/journal.dart';
+import 'package:uuid/uuid.dart';
 
-class AddJournalView extends StatefulWidget {
-  const AddJournalView({Key? key}) : super(key: key);
+class JournalFormView extends StatefulWidget {
+  JournalFormView({Key? key, this.journal}) : super(key: key);
+  Journal? journal;
 
   @override
-  _AddJournalViewState createState() => _AddJournalViewState();
+  _JournalFormViewState createState() => _JournalFormViewState();
 }
 
-class _AddJournalViewState extends State<AddJournalView> {
+class _JournalFormViewState extends State<JournalFormView> {
+  final _keyForm = GlobalKey<FormState>();
+  JournalController journalController = Get.find<JournalController>();
+
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+
   var parser = EmojiParser();
   List<Emoji> emojis = [
     Emoji('happy', '😀'),
@@ -25,6 +36,77 @@ class _AddJournalViewState extends State<AddJournalView> {
   ];
   var _selectedColor;
   var _selectedMood;
+
+  void _saveForm() {
+    var uuid = const Uuid();
+    if (_keyForm.currentState!.validate()) {
+      _keyForm.currentState!.save();
+      if (widget.journal == null) {
+        journalController.journalData.add(Journal(
+          id: uuid.v1().toString(),
+          title: _titleController.text,
+          description: _descriptionController.text,
+          color: _selectedColor,
+          mood: _selectedMood,
+          date: DateTime.now(),
+        ));
+        Get.snackbar(
+          '',
+          '',
+          titleText: Text(
+            'Saved',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+          messageText: Text(
+            'Journal Added Successfully',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 2),
+        );
+      } else {
+        journalController.journalData.indexWhere((element) {
+          if (element.id == widget.journal!.id) {
+            element.title = _titleController.text;
+            element.description = _descriptionController.text;
+            element.color = _selectedColor;
+            element.mood = _selectedMood;
+            element.date = DateTime.now();
+          }
+
+          return element.id == widget.journal!.id;
+        });
+        Get.snackbar(
+          '',
+          '',
+          titleText: Text(
+            'Saved',
+            style:
+                Theme.of(context).textTheme.headline1!.copyWith(fontSize: 18),
+          ),
+          messageText: Text(
+            'Journal Updated Successfully',
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 2),
+        );
+      }
+      navigationController.goBack();
+    }
+  }
+
+  @override
+  void initState() {
+    if (widget.journal != null) {
+      _titleController.text = widget.journal!.title!;
+      _descriptionController.text = widget.journal!.description!;
+      _selectedColor = widget.journal!.color;
+      _selectedMood = widget.journal!.mood;
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +119,9 @@ class _AddJournalViewState extends State<AddJournalView> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                _saveForm();
+              },
               child: Text(
                 'Save',
                 style: Theme.of(context)
@@ -54,33 +138,46 @@ class _AddJournalViewState extends State<AddJournalView> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              TextFormField(
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 22, fontWeight: FontWeight.bold),
-                decoration: InputDecoration(
-                  hintText: 'Title',
-                  hintStyle: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontSize: 22,
-                        color: Colors.grey,
+              Form(
+                key: _keyForm,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: _titleController,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 22, fontWeight: FontWeight.bold),
+                      decoration: InputDecoration(
+                        hintText: 'Title',
+                        hintStyle:
+                            Theme.of(context).textTheme.bodyText1!.copyWith(
+                                  fontSize: 22,
+                                  color: Colors.grey,
+                                ),
+                        border: InputBorder.none,
                       ),
-                  border: InputBorder.none,
-                ),
-              ),
-              TextFormField(
-                maxLines: 10,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 18),
-                decoration: InputDecoration(
-                  hintText: 'Journal',
-                  hintStyle: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        fontSize: 18,
-                        color: Colors.grey,
+                      validator: (value) => null,
+                    ),
+                    TextFormField(
+                      controller: _descriptionController,
+                      maxLines: 10,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 18),
+                      decoration: InputDecoration(
+                        hintText: 'Journal',
+                        hintStyle:
+                            Theme.of(context).textTheme.bodyText1!.copyWith(
+                                  fontSize: 18,
+                                  color: Colors.grey,
+                                ),
+                        border: InputBorder.none,
                       ),
-                  border: InputBorder.none,
+                      validator: (value) => null,
+                    ),
+                  ],
                 ),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.01),

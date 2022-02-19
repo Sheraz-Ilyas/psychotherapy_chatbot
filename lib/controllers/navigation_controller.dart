@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:psychotherapy_chatbot/models/article.dart';
 
 class NavigationController extends GetxController {
   final sheetController = PageController(

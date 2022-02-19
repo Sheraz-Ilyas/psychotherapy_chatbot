@@ -153,7 +153,7 @@ class ArticleCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         navigationController.navigateWithArg(articleDetails, {
-          "article": article,
+          'article': article,
         });
       },
       child: Container(

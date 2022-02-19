@@ -1,6 +1,7 @@
 // STATIC ROUTES NAME
 import 'package:flutter/material.dart';
 import 'package:psychotherapy_chatbot/models/article.dart';
+import 'package:psychotherapy_chatbot/models/journal.dart';
 import 'package:psychotherapy_chatbot/views/authentication/body.dart';
 import 'package:psychotherapy_chatbot/views/bottom_navigation/body.dart';
 import 'package:psychotherapy_chatbot/views/bottom_navigation/chat_view.dart';
@@ -10,7 +11,7 @@ import 'package:psychotherapy_chatbot/views/explore/brain_training_list.dart';
 import 'package:psychotherapy_chatbot/views/explore/medidation_timer.dart';
 import 'package:psychotherapy_chatbot/views/explore/sleep_sounds.dart';
 import 'package:psychotherapy_chatbot/views/landing_view.dart';
-import 'package:psychotherapy_chatbot/views/track/add_journal_view.dart';
+import 'package:psychotherapy_chatbot/views/track/journal_form_view.dart';
 
 const String initialRoute = '/';
 const String authBody = '/auth-body';
@@ -49,7 +50,7 @@ class RouteGenerator {
 
       case articleDetails:
         return _getPageRoute(ArticleDetails(
-          article: args["article"] as Article,
+          article: args['article'] as Article,
         ));
 
       case brainTrainingList:
@@ -62,7 +63,8 @@ class RouteGenerator {
         return _getPageRoute(const SleepSounds());
 
       case addJournal:
-        return _getPageRoute(const AddJournalView());
+        return _getPageRoute(
+            JournalFormView(journal: args['editJournal'] as dynamic));
 
       default:
         return _errorRoute();
