@@ -56,7 +56,8 @@ class _JournalFormViewState extends State<JournalFormView> {
           '',
           titleText: Text(
             'Saved',
-            style: Theme.of(context).textTheme.bodyText1,
+            style:
+                Theme.of(context).textTheme.headline1!.copyWith(fontSize: 18),
           ),
           messageText: Text(
             'Journal Added Successfully',
@@ -66,6 +67,7 @@ class _JournalFormViewState extends State<JournalFormView> {
           snackPosition: SnackPosition.BOTTOM,
           duration: const Duration(seconds: 2),
         );
+        journalController.doneForToday.value = true;
       } else {
         journalController.journalData.indexWhere((element) {
           if (element.id == widget.journal!.id) {

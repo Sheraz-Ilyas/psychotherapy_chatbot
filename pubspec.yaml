@@ -41,6 +41,9 @@ dependencies:
   persistent_bottom_nav_bar: ^4.0.2
   audioplayers: ^0.20.1
   flutter_emoji: ">= 2.0.0"
+  http: ^0.13.4
+  connectivity_plus: any
+  firebase_auth: ^3.3.10
   
 
 dev_dependencies:

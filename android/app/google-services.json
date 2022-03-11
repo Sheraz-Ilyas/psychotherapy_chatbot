@@ -1,0 +1,84 @@
+{
+  "project_info": {
+    "project_number": "650354984838",
+    "project_id": "psychotherapy-chatbot",
+    "storage_bucket": "psychotherapy-chatbot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:650354984838:android:d6e000c83402ee66010e07",
+        "android_client_info": {
+          "package_name": "com.company.psychotherapy_chatbot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "650354984838-d8ga986ubdhrl7vvgep075al1s3bq8sh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.company.psychotherapy_chatbot",
+            "certificate_hash": "41a469036742390d4373a12b042e8d0257122ff6"
+          }
+        },
+        {
+          "client_id": "650354984838-bacve0n83ei8d5c4v8s2puk3emeqdav6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9uUiveKBNpoo14AoVjzyrQonPYQUZX3Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "650354984838-bacve0n83ei8d5c4v8s2puk3emeqdav6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:650354984838:android:72f14740fcc19d81010e07",
+        "android_client_info": {
+          "package_name": "com.example.psychotherapy_chatbot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "650354984838-8j2b2djasdsuip627t96abs0hc6bn34g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.psychotherapy_chatbot",
+            "certificate_hash": "41a469036742390d4373a12b042e8d0257122ff6"
+          }
+        },
+        {
+          "client_id": "650354984838-bacve0n83ei8d5c4v8s2puk3emeqdav6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9uUiveKBNpoo14AoVjzyrQonPYQUZX3Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "650354984838-bacve0n83ei8d5c4v8s2puk3emeqdav6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:psychotherapy_chatbot/models/article.dart';
 import 'package:psychotherapy_chatbot/models/journal.dart';
+import 'package:psychotherapy_chatbot/root.dart';
 import 'package:psychotherapy_chatbot/views/authentication/body.dart';
 import 'package:psychotherapy_chatbot/views/bottom_navigation/body.dart';
 import 'package:psychotherapy_chatbot/views/bottom_navigation/chat_view.dart';
@@ -13,7 +14,8 @@ import 'package:psychotherapy_chatbot/views/explore/sleep_sounds.dart';
 import 'package:psychotherapy_chatbot/views/landing_view.dart';
 import 'package:psychotherapy_chatbot/views/track/journal_form_view.dart';
 
-const String initialRoute = '/';
+const String root = '/';
+const String landingPage = '/landingPage';
 const String authBody = '/auth-body';
 const String navBody = '/nav-body';
 const String explore = '/explore';
@@ -35,8 +37,12 @@ class RouteGenerator {
       args = settings.arguments as Map;
     }
     switch (settings.name) {
-      case initialRoute:
-        return _getPageRoute(const NavBody());
+      case root:
+        return _getPageRoute(Root());
+
+      case landingPage:
+        return _getPageRoute(const LandingView());
+
       case authBody:
         return _getPageRoute(const AuthBody());
 

@@ -43,7 +43,7 @@ class AuthBody extends StatelessWidget {
               child: PageView(
             physics: const NeverScrollableScrollPhysics(),
             controller: navigationController.sheetController,
-            children: const [
+            children: [
               SignupScreen(),
               LoginScreen(),
             ],

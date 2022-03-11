@@ -70,9 +70,7 @@ class _TrackViewState extends State<TrackView> {
                       onPressed: () {
                         navigationController.navigateWithArg(
                             addJournal, {'editJournal': null}).then((value) {
-                          setState(() {
-                            journalController.doneForToday.value = true;
-                          });
+                          setState(() {});
                         });
                       },
                     ),

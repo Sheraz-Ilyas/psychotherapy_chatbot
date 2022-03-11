@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/state_manager.dart';
 import 'package:psychotherapy_chatbot/constants/colors.dart';
 import 'package:psychotherapy_chatbot/constants/controllers.dart';
 import 'package:psychotherapy_chatbot/router/route_generator.dart';
 import 'package:psychotherapy_chatbot/widgets/auth_button.dart';
 import 'package:psychotherapy_chatbot/widgets/textfield_body.dart';
+import 'package:psychotherapy_chatbot/controllers/auth_controller.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({Key? key}) : super(key: key);
-
-  @override
-  _SignupScreenState createState() => _SignupScreenState();
-}
-
-class _SignupScreenState extends State<SignupScreen> {
+class SignupScreen extends GetWidget<AuthController> {
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController nameController = TextEditingController();
@@ -21,11 +16,11 @@ class _SignupScreenState extends State<SignupScreen> {
 
   void _submit() {
     final isValid = _formKey.currentState!.validate();
-    FocusScope.of(context).unfocus();
+    // FocusScope.of(context).unfocus();
 
-    navigationController.navigateTo(navBody);
     if (isValid) {
       _formKey.currentState!.save();
+      controller.signUp(emailController.text, passwordController.text);
     }
   }
 

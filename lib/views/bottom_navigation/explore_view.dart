@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:psychotherapy_chatbot/constants/controllers.dart';
 import 'package:psychotherapy_chatbot/controllers/article_data_temp.dart';
+import 'package:psychotherapy_chatbot/controllers/auth_controller.dart';
 import 'package:psychotherapy_chatbot/models/article.dart';
 import 'package:psychotherapy_chatbot/router/route_generator.dart';
 
-class ExploreView extends StatelessWidget {
+class ExploreView extends GetWidget<AuthController> {
   ExploreView({Key? key}) : super(key: key);
 
   List<String> imagesPath = [
@@ -35,8 +37,13 @@ class ExploreView extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              child: Image.asset("assets/images/robot.png"),
+            child: InkWell(
+              onTap: () {
+                controller.signOut();
+              },
+              child: CircleAvatar(
+                child: Image.asset("assets/images/robot.png"),
+              ),
             ),
           )
         ],
