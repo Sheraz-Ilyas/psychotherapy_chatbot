@@ -15,17 +15,12 @@ class SleepSounds extends StatefulWidget {
 class _SleepSoundsState extends State<SleepSounds>
     with SingleTickerProviderStateMixin {
   late AudioPlayer audioPlayer;
-  Duration _duration = const Duration();
-  Duration _position = const Duration();
   final String path = "assets/audio/quran_sleep_file.mp3";
   bool isPlaying = false;
   bool isPaused = false;
   late final AnimationController _controller =
       AnimationController(vsync: this, duration: const Duration(seconds: 3))
         ..repeat(reverse: true);
-  late final Animation<Offset> _animation = Tween(
-          begin: Offset.zero, end: const Offset(0, 0.08))
-      .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
   void changeToSecond(int second) {
     Duration newDuration = Duration(seconds: second);
@@ -37,14 +32,10 @@ class _SleepSoundsState extends State<SleepSounds>
     super.initState();
     audioPlayer = AudioPlayer();
     audioPlayer.onDurationChanged.listen((duration) {
-      setState(() {
-        _duration = duration;
-      });
+      setState(() {});
     });
     audioPlayer.onAudioPositionChanged.listen((position) {
-      setState(() {
-        _position = position;
-      });
+      setState(() {});
     });
   }
 

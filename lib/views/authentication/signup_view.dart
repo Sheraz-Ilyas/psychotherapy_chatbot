@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
 import 'package:psychotherapy_chatbot/constants/colors.dart';
 import 'package:psychotherapy_chatbot/constants/controllers.dart';
-import 'package:psychotherapy_chatbot/router/route_generator.dart';
 import 'package:psychotherapy_chatbot/widgets/auth_button.dart';
 import 'package:psychotherapy_chatbot/widgets/textfield_body.dart';
 import 'package:psychotherapy_chatbot/controllers/auth_controller.dart';
@@ -20,7 +19,8 @@ class SignupScreen extends GetWidget<AuthController> {
 
     if (isValid) {
       _formKey.currentState!.save();
-      controller.signUp(emailController.text, passwordController.text);
+      controller.signUp(
+          emailController.text, passwordController.text, nameController.text);
     }
   }
 

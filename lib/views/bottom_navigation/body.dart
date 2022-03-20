@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:psychotherapy_chatbot/constants/colors.dart';
 import 'package:psychotherapy_chatbot/views/bottom_navigation/chat_view.dart';
@@ -18,9 +16,9 @@ class NavBody extends StatefulWidget {
 class _NavBodyState extends State<NavBody> {
   final List<Widget> _children = [
     ExploreView(),
-    ChatView(),
+    const ChatView(),
     TrackView(),
-    GroupView()
+    const GroupView()
   ];
   final List<PersistentBottomNavBarItem> _navBarItems = [
     PersistentBottomNavBarItem(

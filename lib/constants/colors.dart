@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-const blue = Color(0xFFF6F61E8);
+// ignore: use_full_hex_values_for_flutter_colors
+const blue = Color(0xfff6f61e8);
 const List<Color> journalColors = <Color>[
   Colors.red,
   Colors.green,

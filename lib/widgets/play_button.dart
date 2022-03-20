@@ -8,7 +8,8 @@ class PlayButton extends StatefulWidget {
   final Icon pauseIcon;
   final VoidCallback onPressed;
 
-  PlayButton({
+  // ignore: use_key_in_widget_constructors
+  const PlayButton({
     required this.onPressed,
     this.initialIsPlaying = false,
     this.playIcon = const Icon(Icons.play_arrow),
@@ -123,6 +124,7 @@ class Blob extends StatelessWidget {
   final double scale;
   final Color color;
 
+  // ignore: use_key_in_widget_constructors
   const Blob({required this.color, this.rotation = 0, this.scale = 1});
 
   @override

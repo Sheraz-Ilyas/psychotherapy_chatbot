@@ -4,7 +4,7 @@ import 'package:psychotherapy_chatbot/controllers/brain_training_temp.dart';
 import 'package:psychotherapy_chatbot/models/brain_training.dart';
 
 class BrainTrainingList extends StatelessWidget {
-  BrainTrainingList({Key? key}) : super(key: key);
+  const BrainTrainingList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +38,7 @@ class BrainTrainingList extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class BrainCard extends StatelessWidget {
   BrainCard({Key? key, this.brainExcercise}) : super(key: key);
 
@@ -121,27 +122,23 @@ class BrainCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8)),
                       elevation: 1,
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Icon(brainExcercise!.category),
                       ),
                     ),
-                    Container(
-                      child: Text(
-                        brainExcercise!.title!,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline1!
-                            .copyWith(fontSize: 22),
-                      ),
+                    Text(
+                      brainExcercise!.title!,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline1!
+                          .copyWith(fontSize: 22),
                     ),
-                    Container(
-                      child: Text(
-                        brainExcercise!.description!,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1!
-                            .copyWith(fontSize: 13),
-                      ),
+                    Text(
+                      brainExcercise!.description!,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 13),
                     )
                   ],
                 ),

@@ -7,6 +7,7 @@ import 'package:psychotherapy_chatbot/controllers/auth_controller.dart';
 import 'package:psychotherapy_chatbot/models/article.dart';
 import 'package:psychotherapy_chatbot/router/route_generator.dart';
 
+// ignore: must_be_immutable
 class ExploreView extends GetWidget<AuthController> {
   ExploreView({Key? key}) : super(key: key);
 
@@ -117,7 +118,7 @@ class ExploreView extends GetWidget<AuthController> {
                 style: Theme.of(context).textTheme.headline1,
               ),
             ),
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height * 0.25,
               child: GridView.count(
                 scrollDirection: Axis.horizontal,
@@ -150,6 +151,7 @@ class ExploreView extends GetWidget<AuthController> {
   }
 }
 
+// ignore: must_be_immutable
 class ArticleCard extends StatelessWidget {
   ArticleCard({Key? key, this.article}) : super(key: key);
 
@@ -233,7 +235,7 @@ class ArticleCard extends StatelessWidget {
 }
 
 class GridItem extends StatelessWidget {
-  GridItem(
+  const GridItem(
       {Key? key, @required this.title, @required this.imagePath, this.route})
       : super(key: key);
 

@@ -8,6 +8,7 @@ import 'package:psychotherapy_chatbot/models/journal.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 
+// ignore: must_be_immutable
 class JournalFormView extends StatefulWidget {
   JournalFormView({Key? key, this.journal}) : super(key: key);
   Journal? journal;
@@ -35,7 +36,9 @@ class _JournalFormViewState extends State<JournalFormView> {
     Emoji('crying', '😭'),
     Emoji('unknown', '😶')
   ];
+  // ignore: prefer_typing_uninitialized_variables
   var _selectedColor;
+  // ignore: prefer_typing_uninitialized_variables
   var _selectedMood;
 
   void _saveForm() {
@@ -354,6 +357,7 @@ class _JournalFormViewState extends State<JournalFormView> {
   }
 }
 
+// ignore: must_be_immutable
 class MoodPill extends StatelessWidget {
   MoodPill({Key? key, required this.emoji, required this.mood, this.selected})
       : super(key: key);

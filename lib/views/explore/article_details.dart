@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:psychotherapy_chatbot/models/article.dart';
 
+// ignore: must_be_immutable
 class ArticleDetails extends StatelessWidget {
   ArticleDetails({Key? key, @required this.article}) : super(key: key);
 

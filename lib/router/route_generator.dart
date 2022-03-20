@@ -1,7 +1,6 @@
 // STATIC ROUTES NAME
 import 'package:flutter/material.dart';
 import 'package:psychotherapy_chatbot/models/article.dart';
-import 'package:psychotherapy_chatbot/models/journal.dart';
 import 'package:psychotherapy_chatbot/root.dart';
 import 'package:psychotherapy_chatbot/views/authentication/body.dart';
 import 'package:psychotherapy_chatbot/views/bottom_navigation/body.dart';
@@ -38,7 +37,7 @@ class RouteGenerator {
     }
     switch (settings.name) {
       case root:
-        return _getPageRoute(Root());
+        return _getPageRoute(const Root());
 
       case landingPage:
         return _getPageRoute(const LandingView());

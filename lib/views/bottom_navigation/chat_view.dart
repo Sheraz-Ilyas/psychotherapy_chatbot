@@ -1,11 +1,13 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:get/get.dart';
 import 'package:psychotherapy_chatbot/constants/uri.dart';
+import 'package:psychotherapy_chatbot/controllers/auth_controller.dart';
 import 'package:psychotherapy_chatbot/controllers/conntection_controller.dart';
+import 'package:psychotherapy_chatbot/models/user.dart';
+import 'package:psychotherapy_chatbot/services/database.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,17 +21,32 @@ class ChatView extends StatefulWidget {
 class _ChatViewState extends State<ChatView> {
   final ConnectionController _connectionController =
       Get.put(ConnectionController());
-  List<types.Message> _messages = [];
-  final _user = const types.User(id: '06c33e8b-e835-4736-80f4-63f44b66666c');
-  final _bot = const types.User(id: 'bot');
+  final AuthController _authController = Get.put(AuthController());
 
+  List<types.Message> _messages = [];
+
+  late final _user;
+  late final _bot;
+  late String? userName;
+
+  DatabaseMethods databaseMethods = DatabaseMethods();
   // get client
   http.Client get client => http.Client();
 
   @override
   void initState() {
     super.initState();
+    getUsername();
+    userName = _authController.localUser.value.name;
+
+    createChat();
     _loadMessages();
+
+    _user = types.User(
+      id: _authController.firebaseUser!.uid,
+      firstName: userName,
+    );
+    _bot = const types.User(id: 'chatbot', firstName: 'chatbot');
   }
 
   @override
@@ -38,23 +55,25 @@ class _ChatViewState extends State<ChatView> {
     client.close();
   }
 
-  void _addMessage(types.Message message) {
-    setState(() {
-      _messages.insert(0, message);
-    });
+  getUsername() async {
+    UserLocal user = await databaseMethods
+        .getUser(_authController.firebaseUser!.uid)
+        .then((value) => value);
+    _authController.localUser.value = user;
   }
 
-  void _handlePreviewDataFetched(
-    types.TextMessage message,
-    types.PreviewData previewData,
-  ) {
-    final index = _messages.indexWhere((element) => element.id == message.id);
-    final updatedMessage = _messages[index].copyWith(previewData: previewData);
-
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      setState(() {
-        _messages[index] = updatedMessage;
-      });
+  void _addMessage(types.Message message, String text) {
+    setState(() {
+      _messages.insert(0, message);
+      Map<String, dynamic> messageMap = {
+        "sentBy": message.author.firstName!,
+        "createdAt": message.createdAt,
+        "id": message.id,
+        "text": text
+      };
+      databaseMethods.addConversationMessages(
+          userName!.replaceAll(' ', '-').toLowerCase() + '_chatbot',
+          messageMap);
     });
   }
 
@@ -83,30 +102,57 @@ class _ChatViewState extends State<ChatView> {
     final textMessage = types.TextMessage(
       author: _user,
       createdAt: DateTime.now().millisecondsSinceEpoch,
-      id: const Uuid().v4(),
+      id: Get.find<AuthController>().firebaseUser!.uid,
       text: message.text,
     );
-    _addMessage(textMessage);
+
+    _addMessage(textMessage, message.text);
 
     String? response = await getResponse(message.text);
-    print(response);
+
     final botMessage = types.TextMessage(
       author: _bot,
       createdAt: DateTime.now().millisecondsSinceEpoch,
       id: const Uuid().v4(),
       text: response ?? "No response",
     );
-    _addMessage(botMessage);
+
+    _addMessage(botMessage, response ?? "No response");
+  }
+
+  void createChat() {
+    List<String> users = [userName!, 'chatbot'];
+    String conversationId =
+        userName!.replaceAll(' ', '-').toLowerCase() + '_chatbot';
+    Map<String, dynamic> conversationMap = {
+      "users": users,
+      "conversationId": conversationId.toString()
+    };
+    databaseMethods.createChat(conversationId, conversationMap);
   }
 
   void _loadMessages() async {
-    final response = await rootBundle.loadString('assets/messages.json');
-    final messages = (jsonDecode(response) as List)
-        .map((e) => types.Message.fromJson(e as Map<String, dynamic>))
-        .toList();
-
+    List<dynamic> messagesObject =
+        // await databaseMethods.getConversationMessages(Get.find<AuthController>()
+        //         .localUser
+        //         .value
+        //         .name!
+        //         .replaceAll(' ', '-')
+        //         .toLowerCase() +
+        //     '_bot');
+        await databaseMethods.getConversationMessages(
+            userName!.replaceAll(' ', '-').toLowerCase() + '_chatbot');
+    List<types.TextMessage> messages = messagesObject.map((e) {
+      return types.TextMessage(
+        createdAt: e['createdAt'],
+        id: e['id'],
+        author: e['sentBy'] != 'chatbot' ? _user : _bot,
+        text: e['text'],
+      );
+    }).toList();
+    messages.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
     setState(() {
-      _messages = messages;
+      _messages = messages.reversed.toList();
     });
   }
 
@@ -114,6 +160,7 @@ class _ChatViewState extends State<ChatView> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(statusBarColor: Colors.white));
+
     return Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -148,7 +195,6 @@ class _ChatViewState extends State<ChatView> {
               Expanded(
                 child: Chat(
                   messages: _messages,
-                  onPreviewDataFetched: _handlePreviewDataFetched,
                   onSendPressed: _handleSendPressed,
                   user: _user,
                 ),

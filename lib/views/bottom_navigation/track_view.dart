@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class TrackView extends StatefulWidget {
-  TrackView({Key? key}) : super(key: key);
+  const TrackView({Key? key}) : super(key: key);
 
   @override
   State<TrackView> createState() => _TrackViewState();
@@ -114,6 +114,7 @@ class _TrackViewState extends State<TrackView> {
   }
 }
 
+// ignore: must_be_immutable
 class JournalCard extends StatefulWidget {
   JournalCard({
     Key? key,
@@ -165,26 +166,21 @@ class _JournalCardState extends State<JournalCard> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      child: Text(
-                        widget.journal!.title == ''
-                            ? "Today's Journal"
-                            : widget.journal!.title!,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline1!
-                            .copyWith(fontSize: 22, color: Colors.white),
-                      ),
+                    Text(
+                      widget.journal!.title == ''
+                          ? "Today's Journal"
+                          : widget.journal!.title!,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline1!
+                          .copyWith(fontSize: 22, color: Colors.white),
                     ),
-                    Container(
-                      child: Text(
-                        DateFormat('MMMM d, yyyy')
-                            .format(widget.journal!.date!),
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1!
-                            .copyWith(fontSize: 13, color: Colors.white),
-                      ),
+                    Text(
+                      DateFormat('MMMM d, yyyy').format(widget.journal!.date!),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 13, color: Colors.white),
                     )
                   ],
                 ),

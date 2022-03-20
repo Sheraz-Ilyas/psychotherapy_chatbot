@@ -5,6 +5,8 @@ import 'package:psychotherapy_chatbot/views/authentication/body.dart';
 import 'package:psychotherapy_chatbot/views/bottom_navigation/body.dart';
 
 class Root extends GetWidget<AuthController> {
+  const Root({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Obx(() {
