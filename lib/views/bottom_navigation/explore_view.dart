@@ -28,12 +28,14 @@ class ExploreView extends GetWidget<AuthController> {
     SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(statusBarColor: Colors.white));
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text(
           "Explore",
           style: Theme.of(context).textTheme.headline1,
         ),
         backgroundColor: Colors.white,
+        elevation: 0,
         automaticallyImplyLeading: false,
         actions: [
           Padding(

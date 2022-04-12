@@ -17,7 +17,7 @@ class _NavBodyState extends State<NavBody> {
   final List<Widget> _children = [
     ExploreView(),
     const ChatView(),
-    TrackView(),
+    const TrackView(),
     const GroupView()
   ];
   final List<PersistentBottomNavBarItem> _navBarItems = [

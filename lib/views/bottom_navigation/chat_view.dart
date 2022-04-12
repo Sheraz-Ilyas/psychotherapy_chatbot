@@ -25,7 +25,9 @@ class _ChatViewState extends State<ChatView> {
 
   List<types.Message> _messages = [];
 
+  // ignore: prefer_typing_uninitialized_variables
   late final _user;
+  // ignore: prefer_typing_uninitialized_variables
   late final _bot;
   late String? userName;
 
