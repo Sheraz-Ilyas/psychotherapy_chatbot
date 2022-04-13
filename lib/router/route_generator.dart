@@ -1,6 +1,6 @@
 // STATIC ROUTES NAME
 import 'package:flutter/material.dart';
-import 'package:psychotherapy_chatbot/community/new_post.dart';
+import 'package:psychotherapy_chatbot/views/community/new_post.dart';
 import 'package:psychotherapy_chatbot/models/article.dart';
 import 'package:psychotherapy_chatbot/root.dart';
 import 'package:psychotherapy_chatbot/views/authentication/body.dart';

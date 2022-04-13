@@ -1,13 +1,10 @@
 class CommunityPost {
-  final int? id;
-  final String? title;
-  final String? description;
-  final DateTime? date;
+  final String? id;
+  late final String? title;
+  late final String? description;
+  late final DateTime? date;
+  late final String? author;
 
-  CommunityPost({
-    this.id,
-    this.title,
-    this.description,
-    this.date,
-  });
+  CommunityPost(
+      {this.id, this.title, this.description, this.date, this.author});
 }
