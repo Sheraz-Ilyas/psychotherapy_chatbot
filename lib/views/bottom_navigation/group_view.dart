@@ -7,6 +7,7 @@ import 'package:psychotherapy_chatbot/controllers/community_controller.dart';
 import 'package:psychotherapy_chatbot/models/community_post.dart';
 import 'package:psychotherapy_chatbot/router/route_generator.dart';
 import 'package:psychotherapy_chatbot/services/database.dart';
+import 'package:intl/intl.dart';
 
 class GroupView extends StatefulWidget {
   const GroupView({Key? key}) : super(key: key);
@@ -163,7 +164,7 @@ class _PostWidgetState extends State<PostWidget> {
                     .copyWith(fontSize: 14),
               ),
               subtitle: Text(
-                widget.post!.date.toString(),
+                DateFormat.yMMMEd().format(widget.post!.date!),
                 style: Theme.of(context)
                     .textTheme
                     .bodyText1!

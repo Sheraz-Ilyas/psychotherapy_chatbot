@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 enum Mood {
   HAPPY,
   SAD,
@@ -28,4 +30,13 @@ class Journal {
     this.mood,
     this.color,
   });
+
+  Journal.fromDocumentSnapshot(DocumentSnapshot doc) {
+    id = doc['id'];
+    title = doc['title'];
+    description = doc['description'];
+    date = DateTime.fromMillisecondsSinceEpoch(doc['date']);
+    mood = Mood.values[doc['mood']];
+    color = Color(doc['color']);
+  }
 }

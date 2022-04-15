@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:psychotherapy_chatbot/constants/colors.dart';
 import 'package:psychotherapy_chatbot/constants/controllers.dart';
+import 'package:psychotherapy_chatbot/controllers/auth_controller.dart';
 import 'package:psychotherapy_chatbot/controllers/journal_controller.dart';
 import 'package:psychotherapy_chatbot/models/journal.dart';
 import 'package:psychotherapy_chatbot/router/route_generator.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:psychotherapy_chatbot/services/database.dart';
 
 class TrackView extends StatefulWidget {
   const TrackView({Key? key}) : super(key: key);
@@ -16,9 +18,17 @@ class TrackView extends StatefulWidget {
 
 class _TrackViewState extends State<TrackView> {
   JournalController journalController = Get.put(JournalController());
+  DatabaseMethods databaseMethods = DatabaseMethods();
+  AuthController authController = Get.put(AuthController());
 
   @override
   void initState() {
+    databaseMethods.createJournal(authController.firebaseUser!.uid);
+    databaseMethods
+        .getJournalList(authController.firebaseUser!.uid)
+        .then((value) {
+      journalController.journalData = value;
+    });
     if (journalController.journalData.isEmpty) {
       journalController.doneForToday.value = false;
     } else {

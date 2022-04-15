@@ -3,8 +3,10 @@ import 'package:flutter_emoji/flutter_emoji.dart';
 import 'package:get/get.dart';
 import 'package:psychotherapy_chatbot/constants/colors.dart';
 import 'package:psychotherapy_chatbot/constants/controllers.dart';
+import 'package:psychotherapy_chatbot/controllers/auth_controller.dart';
 import 'package:psychotherapy_chatbot/controllers/journal_controller.dart';
 import 'package:psychotherapy_chatbot/models/journal.dart';
+import 'package:psychotherapy_chatbot/services/database.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 
@@ -23,6 +25,9 @@ class _JournalFormViewState extends State<JournalFormView> {
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+
+  DatabaseMethods databaseMethods = DatabaseMethods();
+  AuthController authController = Get.find<AuthController>();
 
   var parser = EmojiParser();
   List<Emoji> emojis = [
@@ -46,14 +51,16 @@ class _JournalFormViewState extends State<JournalFormView> {
     if (_keyForm.currentState!.validate()) {
       _keyForm.currentState!.save();
       if (widget.journal == null) {
-        journalController.journalData.add(Journal(
+        Journal journal = Journal(
           id: uuid.v1().toString(),
           title: _titleController.text,
           description: _descriptionController.text,
           color: _selectedColor,
           mood: _selectedMood,
           date: DateTime.now(),
-        ));
+        );
+        databaseMethods.uploadJournal(
+            journal, authController.firebaseUser!.uid);
         Get.snackbar(
           '',
           '',
@@ -72,17 +79,16 @@ class _JournalFormViewState extends State<JournalFormView> {
         );
         journalController.doneForToday.value = true;
       } else {
-        journalController.journalData.indexWhere((element) {
-          if (element.id == widget.journal!.id) {
-            element.title = _titleController.text;
-            element.description = _descriptionController.text;
-            element.color = _selectedColor;
-            element.mood = _selectedMood;
-            element.date = DateTime.now();
-          }
-
-          return element.id == widget.journal!.id;
-        });
+        Journal journal = Journal(
+          id: widget.journal!.id,
+          title: _titleController.text,
+          description: _descriptionController.text,
+          color: _selectedColor,
+          mood: _selectedMood,
+          date: DateTime.now(),
+        );
+        databaseMethods.updateJournal(
+            journal, authController.firebaseUser!.uid);
         Get.snackbar(
           '',
           '',
