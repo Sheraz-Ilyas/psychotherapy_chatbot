@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:psychotherapy_chatbot/models/journal.dart';
@@ -71,9 +72,9 @@ class DatabaseMethods extends GetxController {
       "id": journal.id,
       "title": journal.title,
       "description": journal.description,
-      "date": journal.date.toString(),
+      "date": journal.date as DateTime,
       "mood": journal.mood.toString(),
-      "color": journal.color.toString(),
+      "color": '#${journal.color!.value.toRadixString(16)}'
     }).catchError((e) {
       print(e.toString());
     });

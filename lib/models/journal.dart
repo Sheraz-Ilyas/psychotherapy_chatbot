@@ -35,8 +35,21 @@ class Journal {
     id = doc['id'];
     title = doc['title'];
     description = doc['description'];
-    date = DateTime.fromMillisecondsSinceEpoch(doc['date']);
-    mood = Mood.values[doc['mood']];
-    color = Color(doc['color']);
+    date = (doc['date'] as Timestamp).toDate();
+    mood = Mood.values.firstWhere((e) => e.toString() == doc['mood']);
+    color = getColorFromHex(doc['color']);
+  }
+
+  Color? getColorFromHex(String hexColor) {
+    hexColor = hexColor.replaceAll("#", "");
+    if (hexColor.length == 6) {
+      hexColor = "FF" + hexColor;
+    }
+
+    if (hexColor.length == 8) {
+      return Color(int.parse("0x$hexColor"));
+    }
+
+    return null;
   }
 }

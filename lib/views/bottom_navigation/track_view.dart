@@ -24,11 +24,7 @@ class _TrackViewState extends State<TrackView> {
   @override
   void initState() {
     databaseMethods.createJournal(authController.firebaseUser!.uid);
-    databaseMethods
-        .getJournalList(authController.firebaseUser!.uid)
-        .then((value) {
-      journalController.journalData = value;
-    });
+    _loadJournalData();
     if (journalController.journalData.isEmpty) {
       journalController.doneForToday.value = false;
     } else {
@@ -41,6 +37,14 @@ class _TrackViewState extends State<TrackView> {
       }
     }
     super.initState();
+  }
+
+  void _loadJournalData() async {
+    await databaseMethods
+        .getJournalList(authController.firebaseUser!.uid)
+        .then((value) {
+      journalController.journalData = value;
+    });
   }
 
   @override

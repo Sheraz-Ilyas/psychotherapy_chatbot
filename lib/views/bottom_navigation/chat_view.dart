@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -84,16 +86,15 @@ class _ChatViewState extends State<ChatView> {
 
     try {
       http.Response response = await client.post(
-        Uri.parse(CHATBOT_URL),
+        Uri.parse(LOCAL_HOST),
         body: {"query": message},
       );
-      return response.body;
-      // Map<String, dynamic> jsonResponse = await jsonDecode(response.body);
-      // var result = jsonResponse["response"];
-      // if (result.isEmpty) {
-      //   return "Sorry I couldn't understand your question";
-      // }
-      // return result.toString();
+      Map<String, dynamic> jsonResponse = await jsonDecode(response.body);
+      var result = jsonResponse["response"];
+      if (result.isEmpty) {
+        return "Sorry I couldn't understand your question";
+      }
+      return result.toString();
     } catch (e) {
       print(e);
       return e.toString();
