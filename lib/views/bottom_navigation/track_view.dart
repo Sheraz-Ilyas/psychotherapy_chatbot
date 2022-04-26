@@ -26,14 +26,20 @@ class _TrackViewState extends State<TrackView> {
     databaseMethods.createJournal(authController.firebaseUser!.uid);
     _loadJournalData();
     if (journalController.journalData.isEmpty) {
-      journalController.doneForToday.value = false;
+      setState(() {
+        journalController.doneForToday.value = false;
+      });
     } else {
       DateTime? lastJournalDate = journalController.journalData.last.date;
       if (DateFormat('MMMM d, yyyy').format(lastJournalDate!) ==
           DateFormat('MMMM d, yyyy').format(DateTime.now())) {
-        journalController.doneForToday.value = true;
+        setState(() {
+          journalController.doneForToday.value = true;
+        });
       } else {
-        journalController.doneForToday.value = false;
+        setState(() {
+          journalController.doneForToday.value = false;
+        });
       }
     }
     super.initState();
@@ -43,7 +49,9 @@ class _TrackViewState extends State<TrackView> {
     await databaseMethods
         .getJournalList(authController.firebaseUser!.uid)
         .then((value) {
-      journalController.journalData = value;
+      setState(() {
+        journalController.journalData = value;
+      });
     });
   }
 
@@ -63,7 +71,7 @@ class _TrackViewState extends State<TrackView> {
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: Obx(
-              () => journalController.doneForToday.isTrue
+              () => journalController.doneForToday.value
                   ? InkWell(
                       onTap: () {
                         Get.snackbar(

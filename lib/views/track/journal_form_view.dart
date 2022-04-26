@@ -141,7 +141,8 @@ class _JournalFormViewState extends State<JournalFormView> {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: Text('Delete Journal',
-                                  style: deleteJournal(context)
+                                  style: Theme.of(context)
+                                      .textTheme
                                       .headline1!
                                       .copyWith(fontSize: 20)),
                               content: Text(
@@ -166,7 +167,11 @@ class _JournalFormViewState extends State<JournalFormView> {
                                     textStyle:
                                         Theme.of(context).textTheme.bodyText1,
                                   ),
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    await databaseMethods.deleteJournal(
+                                      authController.firebaseUser!.uid,
+                                      widget.journal!.id!,
+                                    );
                                     journalController.journalData
                                         .removeWhere((element) {
                                       return element.id == widget.journal!.id;
@@ -356,10 +361,6 @@ class _JournalFormViewState extends State<JournalFormView> {
         ),
       ),
     );
-  }
-
-  TextTheme deleteJournal(BuildContext context) {
-    return Theme.of(context).textTheme;
   }
 }
 

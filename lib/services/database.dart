@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:psychotherapy_chatbot/models/community_post.dart';
 import 'package:psychotherapy_chatbot/models/journal.dart';
 import 'package:psychotherapy_chatbot/models/user.dart';
 
@@ -80,6 +81,22 @@ class DatabaseMethods extends GetxController {
     });
   }
 
+  deleteJournal(String uid, String journalId) {
+    FirebaseFirestore.instance
+        .collection("journals")
+        .doc(uid)
+        .collection("journalsList")
+        .get()
+        .then((value) => value.docs.forEach((doc) {
+              if (doc.data()["id"] == journalId) {
+                doc.reference.delete();
+              }
+            }))
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
   updateJournal(Journal journal, String uid) {
     FirebaseFirestore.instance
         .collection("journals")
@@ -107,6 +124,94 @@ class DatabaseMethods extends GetxController {
 
     return querySnapshot.docs
         .map((doc) => Journal.fromDocumentSnapshot(doc))
+        .toList();
+  }
+
+  createPost(String uid) {
+    FirebaseFirestore.instance.collection("posts").doc(uid).set({
+      "uid": uid,
+    }).catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  uploadPost(CommunityPost post, String uid) {
+    FirebaseFirestore.instance
+        .collection("posts")
+        .doc(uid)
+        .collection("postsList")
+        .add({
+      "id": post.id,
+      "title": post.title,
+      "description": post.description,
+      "date": post.date as DateTime,
+      "author": post.author ?? "",
+    }).catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  uploadReadPosts(String postId, String uid) {
+    FirebaseFirestore.instance
+        .collection("posts")
+        .doc(uid)
+        .collection("readPostsList")
+        .add({
+      "id": postId,
+    }).catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  uploadHelpfulPosts(String postId, String uid) {
+    FirebaseFirestore.instance
+        .collection("posts")
+        .doc(uid)
+        .collection("helpfulPostsList")
+        .add({
+      "id": postId,
+    }).catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  Future<List<dynamic>> getHelpfulPostsList(String uid) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("posts")
+        .doc(uid)
+        .collection("helpfulPostsList")
+        .get();
+
+    List<dynamic> temp = querySnapshot.docs.map((doc) => doc.data()).toList();
+    for (int i = 0; i < temp.length; i++) {
+      temp[i] = temp[i]["id"].toString();
+    }
+    return temp;
+  }
+
+  Future<List<dynamic>> getReadPostsList(String uid) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("posts")
+        .doc(uid)
+        .collection("readPostsList")
+        .get();
+
+    List<dynamic> temp = querySnapshot.docs.map((doc) => doc.data()).toList();
+    for (int i = 0; i < temp.length; i++) {
+      temp[i] = temp[i]["id"].toString();
+    }
+    return temp;
+  }
+
+  Future<List<CommunityPost>> getPostsList(String uid) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("posts")
+        .doc(uid)
+        .collection("postsList")
+        .get();
+
+    return querySnapshot.docs
+        .map((doc) => CommunityPost.fromDocumentSnapshot(doc))
         .toList();
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:psychotherapy_chatbot/constants/colors.dart';
 import 'package:psychotherapy_chatbot/constants/controllers.dart';
+import 'package:psychotherapy_chatbot/controllers/auth_controller.dart';
 import 'package:psychotherapy_chatbot/controllers/community_controller.dart';
 import 'package:psychotherapy_chatbot/models/community_post.dart';
 import 'package:psychotherapy_chatbot/router/route_generator.dart';
@@ -18,6 +19,41 @@ class GroupView extends StatefulWidget {
 
 class _GroupViewState extends State<GroupView> {
   CommunityController communityController = Get.put(CommunityController());
+  DatabaseMethods databaseMethods = DatabaseMethods();
+  AuthController authController = Get.put(AuthController());
+
+  @override
+  void initState() {
+    databaseMethods.createPost(authController.firebaseUser!.uid);
+    _loadPostsList();
+    super.initState();
+  }
+
+  void _loadPostsList() {
+    databaseMethods
+        .getPostsList(authController.firebaseUser!.uid)
+        .then((value) {
+      setState(() {
+        communityController.communityPosts = value;
+      });
+    });
+
+    databaseMethods
+        .getHelpfulPostsList(authController.firebaseUser!.uid)
+        .then((value) {
+      setState(() {
+        communityController.helpfulPosts = value;
+      });
+    });
+
+    databaseMethods
+        .getReadPostsList(authController.firebaseUser!.uid)
+        .then((value) {
+      setState(() {
+        communityController.readPosts = value;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +89,7 @@ class _GroupViewState extends State<GroupView> {
         ),
         body: TabBarView(
           children: [
-            Obx(() => communityController.communityPosts.isEmpty
+            communityController.communityPosts.isEmpty
                 ? Column(
                     children: [
                       SizedBox(
@@ -78,8 +114,8 @@ class _GroupViewState extends State<GroupView> {
                       return PostWidget(
                         post: communityController.communityPosts[index],
                       );
-                    }))),
-            Obx(() => communityController.communityPosts.isEmpty
+                    })),
+            communityController.communityPosts.isEmpty
                 ? Column(
                     children: [
                       SizedBox(
@@ -106,7 +142,7 @@ class _GroupViewState extends State<GroupView> {
                       return PostWidget(
                         post: communityController.communityPosts[index],
                       );
-                    }))),
+                    })),
           ],
         ),
         floatingActionButton: FloatingActionButton.extended(
@@ -133,8 +169,8 @@ class _GroupViewState extends State<GroupView> {
 
 // ignore: must_be_immutable
 class PostWidget extends StatefulWidget {
-  PostWidget({Key? key, this.post}) : super(key: key);
-  CommunityPost? post;
+  PostWidget({Key? key, required this.post}) : super(key: key);
+  CommunityPost post;
 
   @override
   State<PostWidget> createState() => _PostWidgetState();
@@ -142,6 +178,7 @@ class PostWidget extends StatefulWidget {
 
 class _PostWidgetState extends State<PostWidget> {
   CommunityController communityController = Get.find<CommunityController>();
+  AuthController authController = Get.find<AuthController>();
   DatabaseMethods databaseMethods = DatabaseMethods();
 
   @override
@@ -157,14 +194,14 @@ class _PostWidgetState extends State<PostWidget> {
                 child: Image.asset("assets/images/robot.png"),
               ),
               title: Text(
-                widget.post!.author!,
+                widget.post.author!,
                 style: Theme.of(context)
                     .textTheme
                     .headline1!
                     .copyWith(fontSize: 14),
               ),
               subtitle: Text(
-                DateFormat.yMMMEd().format(widget.post!.date!),
+                DateFormat.yMMMEd().format(widget.post.date!),
                 style: Theme.of(context)
                     .textTheme
                     .bodyText1!
@@ -175,7 +212,7 @@ class _PostWidgetState extends State<PostWidget> {
               alignment: Alignment.bottomLeft,
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
               child: Text(
-                widget.post!.title!,
+                widget.post.title!,
                 style: Theme.of(context)
                     .textTheme
                     .headline1!
@@ -186,7 +223,7 @@ class _PostWidgetState extends State<PostWidget> {
               alignment: Alignment.bottomLeft,
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
               child: Text(
-                widget.post!.description!,
+                widget.post.description!,
                 style: Theme.of(context)
                     .textTheme
                     .bodyText1!
@@ -202,24 +239,23 @@ class _PostWidgetState extends State<PostWidget> {
                   InkWell(
                     onTap: () {
                       if (communityController.helpfulPosts
-                          .contains(widget.post!.id)) {
-                        communityController.helpfulPosts
-                            .remove(widget.post!.id);
+                          .contains(widget.post.id)) {
+                        communityController.helpfulPosts.remove(widget.post.id);
                       } else {
-                        communityController.helpfulPosts.add(widget.post!.id!);
+                        communityController.helpfulPosts.add(widget.post.id!);
+                        databaseMethods.uploadHelpfulPosts(
+                            widget.post.id!, authController.firebaseUser!.uid);
                       }
                     },
                     child: Row(
                       children: [
-                        Obx(
-                          () => Icon(
-                            Icons.favorite,
-                            size: 20,
-                            color: communityController.helpfulPosts
-                                    .contains(widget.post!.id)
-                                ? Colors.red[600]
-                                : Colors.grey[300],
-                          ),
+                        Icon(
+                          Icons.favorite,
+                          size: 20,
+                          color: communityController.helpfulPosts
+                                  .contains(widget.post.id)
+                              ? Colors.red[600]
+                              : Colors.grey[300],
                         ),
                         const SizedBox(width: 5),
                         Text(
@@ -235,10 +271,12 @@ class _PostWidgetState extends State<PostWidget> {
                   InkWell(
                     onTap: () {
                       if (communityController.readPosts
-                          .contains(widget.post!.id)) {
-                        communityController.readPosts.remove(widget.post!.id);
+                          .contains(widget.post.id)) {
+                        communityController.readPosts.remove(widget.post.id);
                       } else {
-                        communityController.readPosts.add(widget.post!.id!);
+                        communityController.readPosts.add(widget.post.id!);
+                        databaseMethods.uploadReadPosts(
+                            widget.post.id!, authController.firebaseUser!.uid);
                       }
                     },
                     child: Row(
@@ -251,16 +289,14 @@ class _PostWidgetState extends State<PostWidget> {
                               .copyWith(fontSize: 14, color: Colors.grey[600]),
                         ),
                         const SizedBox(width: 5),
-                        Obx(
-                          () => Icon(
-                            Icons.chrome_reader_mode,
-                            size: 20,
-                            color: communityController.readPosts
-                                    .contains(widget.post!.id)
-                                ? Colors.green[300]
-                                : Colors.grey[300],
-                          ),
-                        )
+                        Icon(
+                          Icons.chrome_reader_mode,
+                          size: 20,
+                          color: communityController.readPosts
+                                  .contains(widget.post.id)
+                              ? Colors.green[300]
+                              : Colors.grey[300],
+                        ),
                       ],
                     ),
                   ),

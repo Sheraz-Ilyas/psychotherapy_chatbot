@@ -6,6 +6,7 @@ import 'package:psychotherapy_chatbot/controllers/community_controller.dart';
 import 'package:psychotherapy_chatbot/models/community_post.dart';
 import 'package:psychotherapy_chatbot/models/user.dart';
 import 'package:psychotherapy_chatbot/services/database.dart';
+import 'package:uuid/uuid.dart';
 
 // ignore: must_be_immutable
 class NewPost extends StatefulWidget {
@@ -37,17 +38,17 @@ class _NewPostState extends State<NewPost> {
 
   void _saveForm() {
     getUsername();
+    var uuid = const Uuid();
     if (_keyForm.currentState!.validate()) {
       _keyForm.currentState!.save();
       if (widget.post == null) {
-        communityController.communityPosts.add(
-          CommunityPost(
-              id: _authController.firebaseUser!.uid,
-              title: _titleController.text,
-              description: _descriptionController.text,
-              date: DateTime.now(),
-              author: _authController.localUser.value.name),
-        );
+        CommunityPost post = CommunityPost(
+            id: uuid.v1().toString(),
+            title: _titleController.text,
+            description: _descriptionController.text,
+            date: DateTime.now(),
+            author: _authController.localUser.value.name);
+        databaseMethods.uploadPost(post, _authController.firebaseUser!.uid);
         Get.snackbar(
           '',
           '',
