@@ -71,7 +71,7 @@ class _MeditationTimerState extends State<MeditationTimer>
             style: Theme.of(context).textTheme.headline1,
           ),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
+            icon: const Icon(Icons.close),
             onPressed: () {
               audioPlayer.stop();
               Navigator.of(context).pop();

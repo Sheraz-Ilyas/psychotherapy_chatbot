@@ -5,23 +5,49 @@ import 'package:psychotherapy_chatbot/constants/controllers.dart';
 import 'package:psychotherapy_chatbot/controllers/article_data_temp.dart';
 import 'package:psychotherapy_chatbot/controllers/auth_controller.dart';
 import 'package:psychotherapy_chatbot/models/article.dart';
+import 'package:psychotherapy_chatbot/models/user.dart';
 import 'package:psychotherapy_chatbot/router/route_generator.dart';
+import 'package:psychotherapy_chatbot/services/database.dart';
 
 // ignore: must_be_immutable
-class ExploreView extends GetWidget<AuthController> {
+class ExploreView extends StatefulWidget {
   ExploreView({Key? key}) : super(key: key);
 
+  @override
+  State<ExploreView> createState() => _ExploreViewState();
+}
+
+class _ExploreViewState extends State<ExploreView> {
   List<String> imagesPath = [
     "assets/images/brain.jpg",
     "assets/images/meditation.jpg",
     "assets/images/sleep.jpg"
   ];
+
   List<String> gridTitle = [
     "Brain Trainnig Excercise",
     "Meditation",
     "Sleep Sounds"
   ];
+
   List<String> routes = [brainTrainingList, meditationTimer, sleepSounds];
+
+  AuthController authController = Get.put(AuthController());
+
+  DatabaseMethods databaseMethods = DatabaseMethods();
+
+  getUsername() async {
+    UserLocal user = await databaseMethods
+        .getUser(authController.firebaseUser!.uid)
+        .then((value) => value);
+    authController.localUser.value = user;
+  }
+
+  @override
+  void initState() {
+    getUsername();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,15 +64,30 @@ class ExploreView extends GetWidget<AuthController> {
         elevation: 0,
         automaticallyImplyLeading: false,
         actions: [
+          Center(
+            child: Text(authController.localUser.value.name!.split(" ")[0],
+                style: Theme.of(context)
+                    .textTheme
+                    .headline1!
+                    .copyWith(fontSize: 20)),
+          ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: InkWell(
-              onTap: () {
-                controller.signOut();
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: PopupMenuButton(
+              onSelected: (String value) {
+                if (value == "Logout") {
+                  authController.signOut();
+                }
               },
-              child: CircleAvatar(
+              icon: CircleAvatar(
                 child: Image.asset("assets/images/robot.png"),
               ),
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                const PopupMenuItem(
+                  value: "Logout",
+                  child: Text("Logout"),
+                ),
+              ],
             ),
           )
         ],

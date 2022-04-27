@@ -67,7 +67,7 @@ class _SleepSoundsState extends State<SleepSounds>
                 ),
           ),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
+            icon: const Icon(Icons.close),
             onPressed: () {
               audioPlayer.stop();
               Navigator.of(context).pop();
@@ -124,7 +124,15 @@ class _SleepSoundsState extends State<SleepSounds>
                   ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.35),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.33),
+              Text(
+                "Dua Before Sleeping",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(color: Colors.white, fontSize: 18),
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
               Image.asset(
                 "assets/images/sleep_dua.png",
                 filterQuality: FilterQuality.high,

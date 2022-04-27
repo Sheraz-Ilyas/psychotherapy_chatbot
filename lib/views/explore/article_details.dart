@@ -17,6 +17,9 @@ class ArticleDetails extends StatelessWidget {
         iconTheme: const IconThemeData(
           color: Colors.black,
         ),
+        title: Text("Today's Article",
+            style:
+                Theme.of(context).textTheme.headline1!.copyWith(fontSize: 24)),
         backgroundColor: Colors.white,
         elevation: 0,
       ),

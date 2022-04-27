@@ -1,5 +1,6 @@
 // STATIC ROUTES NAME
 import 'package:flutter/material.dart';
+import 'package:psychotherapy_chatbot/views/chat/sos.dart';
 import 'package:psychotherapy_chatbot/views/community/new_post.dart';
 import 'package:psychotherapy_chatbot/models/article.dart';
 import 'package:psychotherapy_chatbot/root.dart';
@@ -26,6 +27,7 @@ const String meditationTimer = '/meditation-timer';
 const String sleepSounds = '/sleep-sounds';
 const String addJournal = '/add-journal';
 const String newPost = '/new-post';
+const String sos = '/sos';
 
 // ignore: todo
 // TODO : ROUTES GENERATOR CLASS THAT CONTROLS THE FLOW OF NAVIGATION/ROUTING
@@ -75,6 +77,9 @@ class RouteGenerator {
 
       case newPost:
         return _getPageRoute(NewPost());
+
+      case sos:
+        return _getPageRoute(const SOS());
 
       default:
         return _errorRoute();

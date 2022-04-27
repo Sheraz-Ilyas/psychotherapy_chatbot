@@ -1,14 +1,13 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:get/get.dart';
+import 'package:psychotherapy_chatbot/constants/controllers.dart';
 import 'package:psychotherapy_chatbot/constants/uri.dart';
 import 'package:psychotherapy_chatbot/controllers/auth_controller.dart';
-import 'package:psychotherapy_chatbot/controllers/conntection_controller.dart';
-import 'package:psychotherapy_chatbot/models/user.dart';
+import 'package:psychotherapy_chatbot/router/route_generator.dart';
 import 'package:psychotherapy_chatbot/services/database.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
@@ -21,8 +20,6 @@ class ChatView extends StatefulWidget {
 }
 
 class _ChatViewState extends State<ChatView> {
-  final ConnectionController _connectionController =
-      Get.put(ConnectionController());
   final AuthController _authController = Get.put(AuthController());
 
   List<types.Message> _messages = [];
@@ -40,7 +37,6 @@ class _ChatViewState extends State<ChatView> {
   @override
   void initState() {
     super.initState();
-    getUsername();
     userName = _authController.localUser.value.name;
 
     createChat();
@@ -57,13 +53,6 @@ class _ChatViewState extends State<ChatView> {
   void dispose() {
     super.dispose();
     client.close();
-  }
-
-  getUsername() async {
-    UserLocal user = await databaseMethods
-        .getUser(_authController.firebaseUser!.uid)
-        .then((value) => value);
-    _authController.localUser.value = user;
   }
 
   void _addMessage(types.Message message, String text) {
@@ -184,14 +173,11 @@ class _ChatViewState extends State<ChatView> {
                     ),
                   ),
                   Text(
-                    _connectionController.isConnected.value
-                        ? "Online"
-                        : "Offline",
-                    style: Theme.of(context).textTheme.headline1!.copyWith(
-                        color: _connectionController.isConnected.value
-                            ? Colors.green
-                            : Colors.grey,
-                        fontSize: 14),
+                    "Thinking...",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline1!
+                        .copyWith(color: Colors.grey, fontSize: 14),
                   ),
                 ],
               ),
@@ -208,7 +194,9 @@ class _ChatViewState extends State<ChatView> {
         floatingActionButton: Padding(
           padding: const EdgeInsets.only(top: 10),
           child: FloatingActionButton.extended(
-            onPressed: () {},
+            onPressed: () {
+              navigationController.navigateTo(sos);
+            },
             label: Text(
               "S.O.S",
               style: Theme.of(context).textTheme.headline1?.copyWith(
