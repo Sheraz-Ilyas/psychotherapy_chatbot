@@ -25,8 +25,17 @@ class _GroupViewState extends State<GroupView> {
   @override
   void initState() {
     databaseMethods.createPost(authController.firebaseUser!.uid);
+    getAllPosts();
     _loadPostsList();
     super.initState();
+  }
+
+  void getAllPosts() {
+    databaseMethods.getAllPosts().then((value) {
+      setState(() {
+        communityController.communityPosts = value;
+      });
+    });
   }
 
   void _loadPostsList() {
@@ -34,7 +43,7 @@ class _GroupViewState extends State<GroupView> {
         .getPostsList(authController.firebaseUser!.uid)
         .then((value) {
       setState(() {
-        communityController.communityPosts = value;
+        communityController.myPosts = value;
       });
     });
 
@@ -62,7 +71,7 @@ class _GroupViewState extends State<GroupView> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: communityController.communityPosts.isEmpty
+        backgroundColor: communityController.myPosts.isEmpty
             ? Colors.white
             : Colors.grey[100],
         appBar: AppBar(
@@ -115,7 +124,7 @@ class _GroupViewState extends State<GroupView> {
                         post: communityController.communityPosts[index],
                       );
                     })),
-            communityController.communityPosts.isEmpty
+            communityController.myPosts.isEmpty
                 ? Column(
                     children: [
                       SizedBox(
@@ -137,10 +146,10 @@ class _GroupViewState extends State<GroupView> {
                     ],
                   )
                 : ListView.builder(
-                    itemCount: communityController.communityPosts.length,
+                    itemCount: communityController.myPosts.length,
                     itemBuilder: ((context, index) {
                       return PostWidget(
-                        post: communityController.communityPosts[index],
+                        post: communityController.myPosts[index],
                       );
                     })),
           ],

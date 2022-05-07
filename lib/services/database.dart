@@ -214,4 +214,21 @@ class DatabaseMethods extends GetxController {
         .map((doc) => CommunityPost.fromDocumentSnapshot(doc))
         .toList();
   }
+
+  Future<List<CommunityPost>> getAllPosts() async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection("posts").get();
+
+    List<dynamic> temp = querySnapshot.docs.map((doc) => doc.data()).toList();
+    for (int i = 0; i < temp.length; i++) {
+      temp[i] = temp[i]["uid"].toString();
+    }
+
+    // get all posts from getpostslist function using all uids returned from temp
+    List<CommunityPost> posts = [];
+    for (int i = 0; i < temp.length; i++) {
+      posts.addAll(await getPostsList(temp[i]));
+    }
+    return posts;
+  }
 }
