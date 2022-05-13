@@ -1,6 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SOS extends StatefulWidget {
   const SOS({Key? key}) : super(key: key);
@@ -80,6 +80,7 @@ class _SOSState extends State<SOS> {
                           _timer.cancel();
                           _start = 4;
                           _isActive = false;
+                          launch("tel://+923117786264");
                         }
                       });
                     },

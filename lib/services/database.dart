@@ -203,6 +203,7 @@ class DatabaseMethods extends GetxController {
     return temp;
   }
 
+  // get all post of current user as list
   Future<List<CommunityPost>> getPostsList(String uid) async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection("posts")
@@ -230,5 +231,16 @@ class DatabaseMethods extends GetxController {
       posts.addAll(await getPostsList(temp[i]));
     }
     return posts;
+  }
+
+  Future<List<CommunityPost>> getPostsByAuthor(String author) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("posts")
+        .doc(author)
+        .collection("postLists")
+        .get();
+    return querySnapshot.docs
+        .map((doc) => CommunityPost.fromDocumentSnapshot(doc))
+        .toList();
   }
 }

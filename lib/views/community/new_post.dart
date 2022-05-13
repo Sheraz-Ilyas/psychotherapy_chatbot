@@ -47,7 +47,7 @@ class _NewPostState extends State<NewPost> {
             title: _titleController.text,
             description: _descriptionController.text,
             date: DateTime.now(),
-            author: _authController.localUser.value.name);
+            author: _authController.localUser.value.name!.split(' ').first);
         databaseMethods.uploadPost(post, _authController.firebaseUser!.uid);
         Get.snackbar(
           '',

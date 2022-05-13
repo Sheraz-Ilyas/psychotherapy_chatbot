@@ -22,11 +22,15 @@ class _GroupViewState extends State<GroupView> {
   DatabaseMethods databaseMethods = DatabaseMethods();
   AuthController authController = Get.put(AuthController());
 
+  int isLoading = 0;
+
   @override
   void initState() {
     databaseMethods.createPost(authController.firebaseUser!.uid);
     getAllPosts();
     _loadPostsList();
+    _loadHelpfulPosts();
+    _loadReadPosts();
     super.initState();
   }
 
@@ -34,6 +38,7 @@ class _GroupViewState extends State<GroupView> {
     databaseMethods.getAllPosts().then((value) {
       setState(() {
         communityController.communityPosts = value;
+        isLoading += 1;
       });
     });
   }
@@ -44,22 +49,29 @@ class _GroupViewState extends State<GroupView> {
         .then((value) {
       setState(() {
         communityController.myPosts = value;
+        isLoading += 1;
       });
     });
+  }
 
+  void _loadHelpfulPosts() {
     databaseMethods
         .getHelpfulPostsList(authController.firebaseUser!.uid)
         .then((value) {
       setState(() {
         communityController.helpfulPosts = value;
+        isLoading += 1;
       });
     });
+  }
 
+  void _loadReadPosts() {
     databaseMethods
         .getReadPostsList(authController.firebaseUser!.uid)
         .then((value) {
       setState(() {
         communityController.readPosts = value;
+        isLoading += 1;
       });
     });
   }
@@ -68,111 +80,140 @@ class _GroupViewState extends State<GroupView> {
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(statusBarColor: Colors.white));
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        backgroundColor: communityController.myPosts.isEmpty
-            ? Colors.white
-            : Colors.grey[100],
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          title:
-              Text('Community', style: Theme.of(context).textTheme.headline1),
-          automaticallyImplyLeading: false,
-          bottom: TabBar(
-            indicatorColor: blue,
-            labelColor: blue,
-            unselectedLabelColor: Colors.grey[500],
-            labelStyle:
-                Theme.of(context).textTheme.headline1!.copyWith(fontSize: 18),
-            tabs: const [
-              Tab(
-                text: 'Discover',
-              ),
-              Tab(
-                text: 'Your Posts',
-              ),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: [
-            communityController.communityPosts.isEmpty
-                ? Column(
-                    children: [
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.1),
-                      Image.asset(
-                        'assets/images/community.jpg',
-                        width: 300,
-                        height: 300,
-                      ),
-                      Text(
-                        "You will read other people stories here!",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline1!
-                            .copyWith(fontSize: 16, color: Colors.grey),
-                      ),
-                    ],
-                  )
-                : ListView.builder(
-                    itemCount: communityController.communityPosts.length,
-                    itemBuilder: ((context, index) {
-                      return PostWidget(
-                        post: communityController.communityPosts[index],
-                      );
-                    })),
-            communityController.myPosts.isEmpty
-                ? Column(
-                    children: [
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.12),
-                      Image.asset(
-                        'assets/images/community_post.jpg',
-                        width: 275,
-                        height: 275,
-                      ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.03),
-                      Text(
-                        "Share your first story!",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline1!
-                            .copyWith(fontSize: 16, color: Colors.grey),
-                      ),
-                    ],
-                  )
-                : ListView.builder(
-                    itemCount: communityController.myPosts.length,
-                    itemBuilder: ((context, index) {
-                      return PostWidget(
-                        post: communityController.myPosts[index],
-                      );
-                    })),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            navigationController.navigateTo(newPost);
-          },
-          label: Text(
-            "New Post",
-            style: Theme.of(context).textTheme.headline1?.copyWith(
-                  color: Colors.white,
-                  fontSize: 16,
+    return isLoading != 4
+        ? const Center(
+            child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(blue),
+          ))
+        : DefaultTabController(
+            length: 2,
+            child: Scaffold(
+              backgroundColor: communityController.myPosts.isEmpty
+                  ? Colors.white
+                  : Colors.grey[100],
+              appBar: AppBar(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                title: Text('Community',
+                    style: Theme.of(context).textTheme.headline1),
+                automaticallyImplyLeading: false,
+                bottom: TabBar(
+                  indicatorColor: blue,
+                  labelColor: blue,
+                  unselectedLabelColor: Colors.grey[500],
+                  labelStyle: Theme.of(context)
+                      .textTheme
+                      .headline1!
+                      .copyWith(fontSize: 18),
+                  tabs: const [
+                    Tab(
+                      text: 'Discover',
+                    ),
+                    Tab(
+                      text: 'Your Posts',
+                    ),
+                  ],
                 ),
-          ),
-          icon: const Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-          backgroundColor: blue,
-        ),
-      ),
-    );
+              ),
+              body: TabBarView(
+                children: [
+                  communityController.communityPosts.isEmpty
+                      ? Column(
+                          children: [
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.1),
+                            Image.asset(
+                              'assets/images/community.jpg',
+                              width: 300,
+                              height: 300,
+                            ),
+                            Text(
+                              "You will read other people stories here!",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline1!
+                                  .copyWith(fontSize: 16, color: Colors.grey),
+                            ),
+                          ],
+                        )
+                      : ListView.builder(
+                          itemCount:
+                              communityController.communityPosts.length + 1,
+                          itemBuilder: ((context, index) {
+                            if (index ==
+                                communityController.communityPosts.length) {
+                              return SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.1);
+                            } else {
+                              return PostWidget(
+                                post: communityController.communityPosts[index],
+                              );
+                            }
+                          })),
+                  communityController.myPosts.isEmpty
+                      ? Column(
+                          children: [
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.12),
+                            Image.asset(
+                              'assets/images/community_post.jpg',
+                              width: 275,
+                              height: 275,
+                            ),
+                            SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.03),
+                            Text(
+                              "Share your first story!",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline1!
+                                  .copyWith(fontSize: 16, color: Colors.grey),
+                            ),
+                          ],
+                        )
+                      : ListView.builder(
+                          itemCount: communityController.myPosts.length + 1,
+                          itemBuilder: ((context, index) {
+                            if (index == communityController.myPosts.length) {
+                              return SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.1);
+                            } else {
+                              return PostWidget(
+                                post: communityController.myPosts[index],
+                              );
+                            }
+                          })),
+                ],
+              ),
+              floatingActionButton: FloatingActionButton.extended(
+                onPressed: () {
+                  navigationController.navigateTo(newPost).then((value) {
+                    _loadPostsList();
+                    getAllPosts();
+                    _loadHelpfulPosts();
+                    _loadReadPosts();
+                  });
+                },
+                label: Text(
+                  "New Post",
+                  style: Theme.of(context).textTheme.headline1?.copyWith(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                ),
+                icon: const Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+                backgroundColor: blue,
+              ),
+            ),
+          );
   }
 }
 

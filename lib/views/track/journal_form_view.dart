@@ -77,7 +77,7 @@ class _JournalFormViewState extends State<JournalFormView> {
           snackPosition: SnackPosition.BOTTOM,
           duration: const Duration(seconds: 2),
         );
-        journalController.doneForToday.value = true;
+        // journalController.doneForToday.value = true;
       } else {
         Journal journal = Journal(
           id: widget.journal!.id,
@@ -176,24 +176,24 @@ class _JournalFormViewState extends State<JournalFormView> {
                                         .removeWhere((element) {
                                       return element.id == widget.journal!.id;
                                     });
-                                    if (journalController.journalData.isEmpty) {
-                                      journalController.doneForToday.value =
-                                          false;
-                                    } else {
-                                      DateTime? lastJournalDate =
-                                          journalController
-                                              .journalData.last.date;
-                                      if (DateFormat('MMMM d, yyyy')
-                                              .format(lastJournalDate!) ==
-                                          DateFormat('MMMM d, yyyy')
-                                              .format(DateTime.now())) {
-                                        journalController.doneForToday.value =
-                                            true;
-                                      } else {
-                                        journalController.doneForToday.value =
-                                            false;
-                                      }
-                                    }
+                                    // if (journalController.journalData.isEmpty) {
+                                    //   journalController.doneForToday.value =
+                                    //       false;
+                                    // } else {
+                                    //   DateTime? lastJournalDate =
+                                    //       journalController
+                                    //           .journalData.last.date;
+                                    //   if (DateFormat('MMMM d, yyyy')
+                                    //           .format(lastJournalDate!) ==
+                                    //       DateFormat('MMMM d, yyyy')
+                                    //           .format(DateTime.now())) {
+                                    //     journalController.doneForToday.value =
+                                    //         true;
+                                    //   } else {
+                                    //     journalController.doneForToday.value =
+                                    //         false;
+                                    //   }
+                                    // }
                                     Get.back();
                                     navigationController.goBack();
                                   },

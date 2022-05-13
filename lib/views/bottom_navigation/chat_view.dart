@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:get/get.dart';
+import 'package:psychotherapy_chatbot/constants/colors.dart';
 import 'package:psychotherapy_chatbot/constants/controllers.dart';
 import 'package:psychotherapy_chatbot/constants/uri.dart';
 import 'package:psychotherapy_chatbot/controllers/auth_controller.dart';
@@ -31,6 +32,8 @@ class _ChatViewState extends State<ChatView> {
   late String? userName;
 
   DatabaseMethods databaseMethods = DatabaseMethods();
+  bool isLoading = true;
+  bool isThinking = false;
   // get client
   http.Client get client => http.Client();
 
@@ -91,6 +94,9 @@ class _ChatViewState extends State<ChatView> {
   }
 
   void _handleSendPressed(types.PartialText message) async {
+    setState(() {
+      isThinking = true;
+    });
     final textMessage = types.TextMessage(
       author: _user,
       createdAt: DateTime.now().millisecondsSinceEpoch,
@@ -100,7 +106,12 @@ class _ChatViewState extends State<ChatView> {
 
     _addMessage(textMessage, message.text);
 
-    String? response = await getResponse(message.text);
+    String? response = await getResponse(message.text).then((value) {
+      setState(() {
+        isThinking = false;
+      });
+      return value;
+    });
 
     final botMessage = types.TextMessage(
       author: _bot,
@@ -124,16 +135,15 @@ class _ChatViewState extends State<ChatView> {
   }
 
   void _loadMessages() async {
-    List<dynamic> messagesObject =
-        // await databaseMethods.getConversationMessages(Get.find<AuthController>()
-        //         .localUser
-        //         .value
-        //         .name!
-        //         .replaceAll(' ', '-')
-        //         .toLowerCase() +
-        //     '_bot');
-        await databaseMethods.getConversationMessages(
-            userName!.replaceAll(' ', '-').toLowerCase() + '_chatbot');
+    List<dynamic> messagesObject = await databaseMethods
+        .getConversationMessages(
+            userName!.replaceAll(' ', '-').toLowerCase() + '_chatbot')
+        .then((value) {
+      setState(() {
+        isLoading = false;
+      });
+      return value;
+    });
     List<types.TextMessage> messages = messagesObject.map((e) {
       return types.TextMessage(
         createdAt: e['createdAt'],
@@ -153,64 +163,69 @@ class _ChatViewState extends State<ChatView> {
     SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(statusBarColor: Colors.white));
 
-    return Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          bottom: false,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
+    return isLoading
+        ? const Center(
+            child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(blue),
+          ))
+        : Scaffold(
+            backgroundColor: Colors.white,
+            body: SafeArea(
+              bottom: false,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
-                    child: CircleAvatar(
-                      child: Image.asset("assets/images/robot.png"),
-                    ),
+                  const SizedBox(
+                    height: 10,
                   ),
-                  Text(
-                    "Thinking...",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline1!
-                        .copyWith(color: Colors.grey, fontSize: 14),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 15),
+                        child: CircleAvatar(
+                          child: Image.asset("assets/images/robot.png"),
+                        ),
+                      ),
+                      Text(
+                        isThinking ? "Thinking..." : 'Ask me Anything',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline1!
+                            .copyWith(color: Colors.grey, fontSize: 14),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: Chat(
+                      messages: _messages,
+                      onSendPressed: _handleSendPressed,
+                      user: _user,
+                    ),
                   ),
                 ],
               ),
-              Expanded(
-                child: Chat(
-                  messages: _messages,
-                  onSendPressed: _handleSendPressed,
-                  user: _user,
+            ),
+            floatingActionButton: Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: FloatingActionButton.extended(
+                onPressed: () {
+                  navigationController.navigateTo(sos);
+                },
+                label: Text(
+                  "S.O.S",
+                  style: Theme.of(context).textTheme.headline1?.copyWith(
+                        color: Colors.red,
+                        fontSize: 16,
+                      ),
                 ),
+                icon: const Icon(
+                  Icons.local_hospital_outlined,
+                  color: Colors.red,
+                ),
+                backgroundColor: Colors.white,
               ),
-            ],
-          ),
-        ),
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: FloatingActionButton.extended(
-            onPressed: () {
-              navigationController.navigateTo(sos);
-            },
-            label: Text(
-              "S.O.S",
-              style: Theme.of(context).textTheme.headline1?.copyWith(
-                    color: Colors.red,
-                    fontSize: 16,
-                  ),
             ),
-            icon: const Icon(
-              Icons.local_hospital_outlined,
-              color: Colors.red,
-            ),
-            backgroundColor: Colors.white,
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endTop);
+            floatingActionButtonLocation: FloatingActionButtonLocation.endTop);
   }
 }
