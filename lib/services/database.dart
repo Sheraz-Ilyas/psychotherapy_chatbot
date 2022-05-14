@@ -233,14 +233,37 @@ class DatabaseMethods extends GetxController {
     return posts;
   }
 
-  Future<List<CommunityPost>> getPostsByAuthor(String author) async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+  // remove read post from readPostsList
+  removeReadPost(String postId, String uid) {
+    FirebaseFirestore.instance
         .collection("posts")
-        .doc(author)
-        .collection("postLists")
-        .get();
-    return querySnapshot.docs
-        .map((doc) => CommunityPost.fromDocumentSnapshot(doc))
-        .toList();
+        .doc(uid)
+        .collection("readPostsList")
+        .get()
+        .then((value) => value.docs.forEach((doc) {
+              if (doc.data()["id"] == postId) {
+                doc.reference.delete();
+              }
+            }))
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  // remove helpful post from helpfulPostsList
+  removeHelpfulPost(String postId, String uid) {
+    FirebaseFirestore.instance
+        .collection("posts")
+        .doc(uid)
+        .collection("helpfulPostsList")
+        .get()
+        .then((value) => value.docs.forEach((doc) {
+              if (doc.data()["id"] == postId) {
+                doc.reference.delete();
+              }
+            }))
+        .catchError((e) {
+      print(e.toString());
+    });
   }
 }

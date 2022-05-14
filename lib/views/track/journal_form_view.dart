@@ -46,6 +46,8 @@ class _JournalFormViewState extends State<JournalFormView> {
   // ignore: prefer_typing_uninitialized_variables
   var _selectedMood;
 
+  bool isLoading = false;
+
   void _saveForm() {
     var uuid = const Uuid();
     if (_keyForm.currentState!.validate()) {
@@ -110,6 +112,32 @@ class _JournalFormViewState extends State<JournalFormView> {
     }
   }
 
+  void _deleteJournal() {
+    if (widget.journal != null) {
+      journalController.journalData.removeWhere((element) {
+        return element.id == widget.journal!.id;
+      });
+      databaseMethods.deleteJournal(
+          authController.firebaseUser!.uid, widget.journal!.id!);
+      Get.snackbar(
+        '',
+        '',
+        titleText: Text(
+          'Deleted',
+          style: Theme.of(context).textTheme.headline1!.copyWith(fontSize: 18),
+        ),
+        messageText: Text(
+          'Journal Deleted Successfully',
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
+        backgroundColor: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 2),
+      );
+      navigationController.goBack();
+    }
+  }
+
   @override
   void initState() {
     if (widget.journal != null) {
@@ -157,7 +185,7 @@ class _JournalFormViewState extends State<JournalFormView> {
                                   ),
                                   child: const Text('Cancel'),
                                   onPressed: () {
-                                    Get.back();
+                                    navigationController.goBack();
                                   },
                                 ),
                                 TextButton(
@@ -168,14 +196,6 @@ class _JournalFormViewState extends State<JournalFormView> {
                                         Theme.of(context).textTheme.bodyText1,
                                   ),
                                   onPressed: () async {
-                                    await databaseMethods.deleteJournal(
-                                      authController.firebaseUser!.uid,
-                                      widget.journal!.id!,
-                                    );
-                                    journalController.journalData
-                                        .removeWhere((element) {
-                                      return element.id == widget.journal!.id;
-                                    });
                                     // if (journalController.journalData.isEmpty) {
                                     //   journalController.doneForToday.value =
                                     //       false;
@@ -195,7 +215,7 @@ class _JournalFormViewState extends State<JournalFormView> {
                                     //   }
                                     // }
                                     Get.back();
-                                    navigationController.goBack();
+                                    _deleteJournal();
                                   },
                                 )
                               ],

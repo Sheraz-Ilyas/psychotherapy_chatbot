@@ -104,7 +104,11 @@ class _TrackViewState extends State<TrackView> {
                       navigationController.navigateWithArg(
                           addJournal, {'editJournal': null}).then((value) {
                         setState(() {
-                          _loadJournalData();
+                          isLoading = true;
+                          Future.delayed(const Duration(seconds: 2))
+                              .then((value) {
+                            _loadJournalData();
+                          });
                         });
                       });
                     },
@@ -138,8 +142,24 @@ class _TrackViewState extends State<TrackView> {
                     child: ListView.builder(
                         itemCount: journalController.journalData.length,
                         itemBuilder: (context, index) {
-                          return JournalCard(
-                            journal: journalController.journalData[index],
+                          return InkWell(
+                            onTap: () {
+                              navigationController.navigateWithArg(addJournal, {
+                                "editJournal":
+                                    journalController.journalData[index]
+                              }).then((value) {
+                                setState(() {
+                                  isLoading = true;
+                                  Future.delayed(const Duration(seconds: 2))
+                                      .then((value) {
+                                    _loadJournalData();
+                                  });
+                                });
+                              });
+                            },
+                            child: JournalCard(
+                              journal: journalController.journalData[index],
+                            ),
                           );
                         }),
                   ),
@@ -175,59 +195,50 @@ class _JournalCardState extends State<JournalCard> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        // navigationController.navigateWithArg(
-        //     addJournal, {"editJournal": widget.journal}).then((value) {
-        //   setState(() {});
-        // });
-      },
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.2,
-        margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-        child: Card(
-          color: widget.journal!.color?.withOpacity(0.9) ?? blue,
-          elevation: 5,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.journal!.title == ''
-                          ? "Today's Journal"
-                          : widget.journal!.title!,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline1!
-                          .copyWith(fontSize: 22, color: Colors.white),
-                    ),
-                    Text(
-                      DateFormat('MMMM d, yyyy').format(widget.journal!.date!),
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .copyWith(fontSize: 13, color: Colors.white),
-                    )
-                  ],
-                ),
-                FittedBox(
-                    fit: BoxFit.contain,
-                    alignment: Alignment.topRight,
-                    child: Image.asset(
-                        moodImages[widget.journal!.mood] ??
-                            'assets/images/moods/unknown.png',
-                        width: 50,
-                        height: 50,
-                        color: Colors.white))
-              ],
-            ),
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.2,
+      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+      child: Card(
+        color: widget.journal!.color?.withOpacity(0.9) ?? blue,
+        elevation: 5,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.journal!.title == ''
+                        ? "Today's Journal"
+                        : widget.journal!.title!,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline1!
+                        .copyWith(fontSize: 22, color: Colors.white),
+                  ),
+                  Text(
+                    DateFormat('MMMM d, yyyy').format(widget.journal!.date!),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1!
+                        .copyWith(fontSize: 13, color: Colors.white),
+                  )
+                ],
+              ),
+              FittedBox(
+                  fit: BoxFit.contain,
+                  alignment: Alignment.topRight,
+                  child: Image.asset(
+                      moodImages[widget.journal!.mood] ??
+                          'assets/images/moods/unknown.png',
+                      width: 50,
+                      height: 50,
+                      color: Colors.white))
+            ],
           ),
         ),
       ),

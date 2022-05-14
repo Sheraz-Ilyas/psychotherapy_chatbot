@@ -291,11 +291,16 @@ class _PostWidgetState extends State<PostWidget> {
                       if (communityController.helpfulPosts
                           .contains(widget.post.id)) {
                         communityController.helpfulPosts.remove(widget.post.id);
+
+                        databaseMethods.removeHelpfulPost(
+                            widget.post.id!, authController.firebaseUser!.uid);
                       } else {
                         communityController.helpfulPosts.add(widget.post.id!);
+
                         databaseMethods.uploadHelpfulPosts(
                             widget.post.id!, authController.firebaseUser!.uid);
                       }
+                      setState(() {});
                     },
                     child: Row(
                       children: [
@@ -323,11 +328,15 @@ class _PostWidgetState extends State<PostWidget> {
                       if (communityController.readPosts
                           .contains(widget.post.id)) {
                         communityController.readPosts.remove(widget.post.id);
+
+                        databaseMethods.removeReadPost(
+                            widget.post.id!, authController.firebaseUser!.uid);
                       } else {
                         communityController.readPosts.add(widget.post.id!);
                         databaseMethods.uploadReadPosts(
                             widget.post.id!, authController.firebaseUser!.uid);
                       }
+                      setState(() {});
                     },
                     child: Row(
                       children: [
