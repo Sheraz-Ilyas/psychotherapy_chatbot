@@ -8,6 +8,7 @@ import 'package:psychotherapy_chatbot/router/route_generator.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:psychotherapy_chatbot/services/database.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 class TrackView extends StatefulWidget {
   const TrackView({Key? key}) : super(key: key);
@@ -45,6 +46,15 @@ class _TrackViewState extends State<TrackView> {
     //   }
     // }
     super.initState();
+  }
+
+  BarChart(
+    BarChartData(
+        // read about it in the BarChartData section
+        ),
+  ) {
+    // TODO: implement BarChart
+    throw UnimplementedError();
   }
 
   void _loadJournalData() async {
