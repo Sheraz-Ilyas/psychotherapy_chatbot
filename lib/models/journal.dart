@@ -11,7 +11,7 @@ enum Mood {
   NEUTRAL,
   CONFUSED,
   CRYING,
-  UNKNOWN
+  EXCITED
 }
 
 class Journal {
