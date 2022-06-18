@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -37,6 +38,19 @@ class _ChatViewState extends State<ChatView> {
   // get client
   http.Client get client => http.Client();
 
+  List<dynamic>? _intents;
+
+  int _currentIndex = 0;
+  List<String> cbtQuestions = [
+    "How would you describe your mood?",
+    "Why are you feeling <TAG> ?",
+    "Tell me what made you feel like this?",
+    "Were you able to sleep well?",
+    "Tell me what's bothering you.",
+    "What would it take for you to feel happier or more at peace?",
+    "What are your expectations from the therapy sessions?"
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -50,12 +64,32 @@ class _ChatViewState extends State<ChatView> {
       firstName: userName,
     );
     _bot = const types.User(id: 'chatbot', firstName: 'chatbot');
+    _loadIntents();
   }
 
   @override
   void dispose() {
     super.dispose();
     client.close();
+  }
+
+  // loop through _intents
+  String getQuestion(String tag) {
+    for (var i = 0; i < _intents!.length; i++) {
+      if (_intents![i]['tag'] == tag) {
+        // returns a random response from the list of responses
+        return _intents![i]['responses']
+            [Random().nextInt(_intents![i]['responses'].length)];
+      }
+    }
+    return "";
+  }
+
+  Future<void> _loadIntents() async {
+    final String jsonString =
+        await rootBundle.loadString('assets/intents.json');
+    final Map<String, dynamic> jsonMap = json.decode(jsonString);
+    _intents = jsonMap['intents'];
   }
 
   void _addMessage(types.Message message, String text) {
@@ -82,11 +116,8 @@ class _ChatViewState extends State<ChatView> {
         body: {"query": message},
       );
       Map<String, dynamic> jsonResponse = await jsonDecode(response.body);
-      var result = jsonResponse["response"];
-      if (result.isEmpty) {
-        return "Sorry I couldn't understand your question";
-      }
-      return result.toString();
+      var result = jsonResponse["response"].toString();
+      return result;
     } catch (e) {
       print(e);
       return e.toString();
@@ -103,7 +134,6 @@ class _ChatViewState extends State<ChatView> {
       id: Get.find<AuthController>().firebaseUser!.uid,
       text: message.text,
     );
-
     _addMessage(textMessage, message.text);
 
     String? response = await getResponse(message.text).then((value) {
@@ -117,10 +147,23 @@ class _ChatViewState extends State<ChatView> {
       author: _bot,
       createdAt: DateTime.now().millisecondsSinceEpoch,
       id: const Uuid().v4(),
-      text: response ?? "No response",
+      text: getQuestion(response!),
     );
+    _addMessage(botMessage, getQuestion(response));
 
-    _addMessage(botMessage, response ?? "No response");
+    if (!(response!.contains("?"))) {
+      String question = cbtQuestions[_currentIndex];
+      // replace the tag with the response
+      question = question.replaceAll("<TAG>", response);
+      final botMessage = types.TextMessage(
+        author: _bot,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        id: const Uuid().v4(),
+        text: question,
+      );
+      _addMessage(botMessage, question);
+      _currentIndex++;
+    }
   }
 
   void createChat() {

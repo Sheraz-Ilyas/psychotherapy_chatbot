@@ -111,13 +111,18 @@ class _ExploreViewState extends State<ExploreView> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Container(
-                    alignment: Alignment.topLeft,
-                    padding: const EdgeInsets.only(
-                        top: 20, bottom: 5, left: 30, right: 30),
-                    child: Text(
-                      "Quote of the Day",
-                      style: Theme.of(context).textTheme.headline1,
+                  InkWell(
+                    onTap: () {
+                      navigationController.navigateTo(test);
+                    },
+                    child: Container(
+                      alignment: Alignment.topLeft,
+                      padding: const EdgeInsets.only(
+                          top: 20, bottom: 5, left: 30, right: 30),
+                      child: Text(
+                        "Quote of the Day",
+                        style: Theme.of(context).textTheme.headline1,
+                      ),
                     ),
                   ),
                   Container(
