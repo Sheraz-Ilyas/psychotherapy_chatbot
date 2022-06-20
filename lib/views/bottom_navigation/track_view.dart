@@ -54,8 +54,11 @@ class _TrackViewState extends State<TrackView> {
         .getJournalList(authController.firebaseUser!.uid)
         .then((value) {
       setState(() {
-        // arrange journal data by date in descending order
-        journalController.journalData = value.reversed.toList();
+        journalController.journalData = value;
+        // arrange the list by date
+        journalController.journalData.sort((a, b) {
+          return b.date!.compareTo(a.date!);
+        });
         isLoading = false;
       });
     });

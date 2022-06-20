@@ -61,7 +61,7 @@ class MoodChartState extends State<MoodChart> {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 1.1,
+      aspectRatio: 1.0,
       child: Card(
         elevation: 0,
         color: Colors.white,
@@ -138,7 +138,7 @@ class MoodChartState extends State<MoodChart> {
               : const BorderSide(color: Colors.white, width: 0),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
-            toY: 9,
+            toY: 10,
             color: barBackgroundColor,
           ),
         ),
@@ -148,7 +148,7 @@ class MoodChartState extends State<MoodChart> {
   }
 
   Mood? getDataByDay(String day) {
-    Journal obj = journalController.journalData.lastWhere(
+    Journal obj = journalController.journalData.firstWhere(
         (element) => DateFormat('EEEE').format(element.date!) == day,
         orElse: () => Journal());
     return obj.mood;

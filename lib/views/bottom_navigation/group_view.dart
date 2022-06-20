@@ -38,7 +38,12 @@ class _GroupViewState extends State<GroupView> {
     databaseMethods.getAllPosts().then((value) {
       setState(() {
         communityController.communityPosts = value;
+        // arrange the list by date
+        communityController.communityPosts.sort((a, b) {
+          return b.date!.compareTo(a.date!);
+        });
         isLoading += 1;
+        print("1");
       });
     });
   }
@@ -49,7 +54,12 @@ class _GroupViewState extends State<GroupView> {
         .then((value) {
       setState(() {
         communityController.myPosts = value;
+        // arrange the list by date
+        communityController.myPosts.sort((a, b) {
+          return b.date!.compareTo(a.date!);
+        });
         isLoading += 1;
+        print("2");
       });
     });
   }
@@ -61,6 +71,7 @@ class _GroupViewState extends State<GroupView> {
       setState(() {
         communityController.helpfulPosts = value;
         isLoading += 1;
+        print("3");
       });
     });
   }
@@ -72,6 +83,7 @@ class _GroupViewState extends State<GroupView> {
       setState(() {
         communityController.readPosts = value;
         isLoading += 1;
+        print("4");
       });
     });
   }
@@ -192,6 +204,9 @@ class _GroupViewState extends State<GroupView> {
               ),
               floatingActionButton: FloatingActionButton.extended(
                 onPressed: () {
+                  setState(() {
+                    isLoading = 0;
+                  });
                   navigationController.navigateTo(newPost).then((value) {
                     _loadPostsList();
                     getAllPosts();
