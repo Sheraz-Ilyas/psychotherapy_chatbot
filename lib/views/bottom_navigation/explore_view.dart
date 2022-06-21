@@ -27,7 +27,7 @@ class _ExploreViewState extends State<ExploreView> {
 
   List<String> gridTitle = [
     "Brain Trainnig Excercise",
-    "Meditation",
+    "Meditation Timer",
     "Sleep Sounds"
   ];
 

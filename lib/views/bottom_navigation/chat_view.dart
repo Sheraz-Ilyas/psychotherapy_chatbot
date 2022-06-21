@@ -50,7 +50,7 @@ class _ChatViewState extends State<ChatView> {
     "What is your eating pattern?",
     "How is your relationship with your family?",
     "What is your greatest fear?",
-    "Think of what will be different for you in the future when things are going better. Does it make you feel any better?",
+    "Think of what will be different for you in the future when things are going better. How does it make you feel?",
     "Think of a time when you were not having the problem that is bothering you. How do you feel when you think about it?",
     "What are your expectations from the therapy sessions like these? How do you feel after each session?"
   ];
@@ -139,9 +139,6 @@ class _ChatViewState extends State<ChatView> {
   }
 
   void _handleSendPressed(types.PartialText message) async {
-    setState(() {
-      isThinking = true;
-    });
     final textMessage = types.TextMessage(
       author: _user,
       createdAt: DateTime.now().millisecondsSinceEpoch,
@@ -149,6 +146,15 @@ class _ChatViewState extends State<ChatView> {
       text: message.text,
     );
     _addMessage(textMessage, message.text);
+
+    setState(() {
+      isThinking = true;
+    });
+    // delay code for thinking
+    await Future.delayed(Duration(milliseconds: 2000));
+    setState(() {
+      isThinking = false;
+    });
 
     if (emergencyState) {
       if (message.text.contains('yes') ||
@@ -164,18 +170,27 @@ class _ChatViewState extends State<ChatView> {
           text: emergencyText,
         );
         _addMessage(botEmergency, emergencyText);
+
+        String emergencyText2 =
+            "If you can't find another human to help you out at the moment, Please consider pressing the S.O.S ${emojis[7].code} button.";
+        final botEmergency2 = types.TextMessage(
+          author: _bot,
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          id: const Uuid().v4(),
+          text: emergencyText2,
+        );
+        setState(() {
+          isThinking = true;
+        });
+        // delay code for thinking
+        await Future.delayed(Duration(milliseconds: 2000));
+        setState(() {
+          isThinking = false;
+        });
+        _addMessage(botEmergency2, emergencyText2);
+        emergencyState = false;
+        return;
       }
-      String emergencyText2 =
-          "If you can't find another human to help you out at the moment, Please consider pressing the S.O.S ${emojis[7].code} button.";
-      final botEmergency2 = types.TextMessage(
-        author: _bot,
-        createdAt: DateTime.now().millisecondsSinceEpoch,
-        id: const Uuid().v4(),
-        text: emergencyText2,
-      );
-      _addMessage(botEmergency2, emergencyText2);
-      emergencyState = false;
-      return;
     }
 
     String? response = await getResponse(message.text).then((value) {
@@ -193,7 +208,6 @@ class _ChatViewState extends State<ChatView> {
         text: r,
       );
       _addMessage(bot, r);
-
       String localQuestion = cbtQuestions[_currentIndex];
       final botNext = types.TextMessage(
         author: _bot,
@@ -208,8 +222,8 @@ class _ChatViewState extends State<ChatView> {
 
     String question = getQuestion(response!);
     if (question.contains('<NAME>')) {
-      question =
-          question.replaceAll('<NAME>', _authController.localUser.value.name!);
+      question = question.replaceAll(
+          '<NAME>', _authController.localUser.value.name!.split(" ")[0]);
     }
     if (question.contains('Do you know? ')) {
       question =
@@ -230,6 +244,10 @@ class _ChatViewState extends State<ChatView> {
       text: question,
     );
     _addMessage(botMessage, question);
+
+    if (response == 'goodbye') {
+      return;
+    }
     if (question.contains('?')) {
       if (response == 'emergency') {
         emergencyState = true;
@@ -259,6 +277,11 @@ class _ChatViewState extends State<ChatView> {
     }
     if (!(help == '')) {
       setState(() {
+        isThinking = true;
+      });
+      // delay code for thinking
+      await Future.delayed(Duration(milliseconds: 2000));
+      setState(() {
         isThinking = false;
       });
       final botMessage2 = types.TextMessage(
@@ -282,6 +305,14 @@ class _ChatViewState extends State<ChatView> {
         localQuestion = localQuestion.replaceAll("<TAG>", response);
       }
     }
+    setState(() {
+      isThinking = true;
+    });
+    // delay code for thinking
+    await Future.delayed(Duration(milliseconds: 2000));
+    setState(() {
+      isThinking = false;
+    });
     final botMessage3 = types.TextMessage(
       author: _bot,
       createdAt: DateTime.now().millisecondsSinceEpoch,
@@ -358,10 +389,10 @@ class _ChatViewState extends State<ChatView> {
                       ),
                       Text(
                         isThinking ? "Thinking..." : 'Ask me Anything',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline1!
-                            .copyWith(color: Colors.grey, fontSize: 14),
+                        style: Theme.of(context).textTheme.headline1!.copyWith(
+                            color: isThinking ? Colors.green : Colors.grey,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),

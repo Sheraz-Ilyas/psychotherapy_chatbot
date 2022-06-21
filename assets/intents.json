@@ -194,7 +194,7 @@
 				"Sleep issues are too often to occur. I can help you with this.",
 				"It's incredibly frustrating to loose out on sleep. Sometimes you dont't realzie how much you need to rest until you're unable",
 				"Don't worry we both together can overcome this feeling.",
-				"Such issues can really take a lot out of a person. How have you been feeling about all this?"
+				"Such issues can really take a lot out of a person. But i can help you out in this."
 			]
 		},
 		{
@@ -210,7 +210,7 @@
 				"I feel scare leaving my family",
 				"Iam scared i cannot leave them",
 				"Iam afraid i can get failed",
-				"I fear about my furture",
+				"I fear about my future",
 				"I get afraid when i think about my future",
 				"I get afraid when i think about my past",
 				"I fear loosig you"
@@ -271,7 +271,7 @@
 				"I love it",
 				"I am enjoying",
 				"You did a good job",
-				"Iam feeling energertic",
+				"Iam feeling energetic",
 				"Life is good",
 				"This is good",
 				"It will be fun doing such-and-such this weekend",
@@ -645,7 +645,8 @@
 				"I don't get much hungry",
 				"My hunger is finished",
 				"I don't get hungry anymore",
-				"Eating food does not make my hunger go away"
+				"Eating food does not make my hunger go away",
+				"I don't like eating food"
 			],
 			"responses": [
 				"Eating food at the same time daily, keeps your body active during your working hours.",
