@@ -8,6 +8,8 @@ import 'package:psychotherapy_chatbot/router/route_generator.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:psychotherapy_chatbot/services/database.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:psychotherapy_chatbot/widgets/mood_chart.dart';
 
 class TrackView extends StatefulWidget {
   const TrackView({Key? key}) : super(key: key);
@@ -53,6 +55,10 @@ class _TrackViewState extends State<TrackView> {
         .then((value) {
       setState(() {
         journalController.journalData = value;
+        // arrange the list by date
+        journalController.journalData.sort((a, b) {
+          return b.date!.compareTo(a.date!);
+        });
         isLoading = false;
       });
     });
@@ -142,24 +148,30 @@ class _TrackViewState extends State<TrackView> {
                     child: ListView.builder(
                         itemCount: journalController.journalData.length,
                         itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {
-                              navigationController.navigateWithArg(addJournal, {
-                                "editJournal":
-                                    journalController.journalData[index]
-                              }).then((value) {
-                                setState(() {
-                                  isLoading = true;
-                                  Future.delayed(const Duration(seconds: 2))
-                                      .then((value) {
-                                    _loadJournalData();
+                          return Column(
+                            children: [
+                              if (index == 0) MoodChart(),
+                              InkWell(
+                                onTap: () {
+                                  navigationController.navigateWithArg(
+                                      addJournal, {
+                                    "editJournal":
+                                        journalController.journalData[index]
+                                  }).then((value) {
+                                    setState(() {
+                                      isLoading = true;
+                                      Future.delayed(const Duration(seconds: 2))
+                                          .then((value) {
+                                        _loadJournalData();
+                                      });
+                                    });
                                   });
-                                });
-                              });
-                            },
-                            child: JournalCard(
-                              journal: journalController.journalData[index],
-                            ),
+                                },
+                                child: JournalCard(
+                                  journal: journalController.journalData[index],
+                                ),
+                              ),
+                            ],
                           );
                         }),
                   ),
@@ -190,7 +202,7 @@ class _JournalCardState extends State<JournalCard> {
     Mood.NEUTRAL: 'assets/images/moods/neutral.png',
     Mood.CONFUSED: 'assets/images/moods/confused.png',
     Mood.CRYING: 'assets/images/moods/crying.png',
-    Mood.UNKNOWN: 'assets/images/moods/unknown.png',
+    Mood.EXCITED: 'assets/images/moods/excited.png',
   };
 
   @override
@@ -234,7 +246,7 @@ class _JournalCardState extends State<JournalCard> {
                   alignment: Alignment.topRight,
                   child: Image.asset(
                       moodImages[widget.journal!.mood] ??
-                          'assets/images/moods/unknown.png',
+                          'assets/images/moods/neutral.png',
                       width: 50,
                       height: 50,
                       color: Colors.white))

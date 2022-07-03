@@ -39,7 +39,7 @@ class _JournalFormViewState extends State<JournalFormView> {
     Emoji('neutral', '😐'),
     Emoji('confused', '😕'),
     Emoji('crying', '😭'),
-    Emoji('unknown', '😶')
+    Emoji('excited', '😄')
   ];
   // ignore: prefer_typing_uninitialized_variables
   var _selectedColor;

@@ -25,7 +25,7 @@ class _LandingViewState extends State<LandingView> {
         'Use our chatbot to get rid of distracting ideas and refocus on what\'s really important.',
     'Brain Training Excersices':
         'Mental and physical exercises that help improve your mental and emotional well-being.',
-    'Keep Track': 'Keep an eye on your emotions, sleep patterns, and journal.',
+    'Keep Track': 'Keep an eye on your emotions, moods, and journals.',
     'Meditation':
         'Practicing meditation on the go is easy with our meditation section.',
   };

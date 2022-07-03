@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:psychotherapy_chatbot/constants/colors.dart';
 import 'package:psychotherapy_chatbot/constants/controllers.dart';
+import 'package:psychotherapy_chatbot/router/route_generator.dart';
 import 'package:psychotherapy_chatbot/views/authentication/login_view.dart';
 import 'package:psychotherapy_chatbot/views/authentication/signup_view.dart';
 
@@ -20,7 +21,7 @@ class AuthBody extends StatelessWidget {
             alignment: Alignment.topLeft,
             child: ElevatedButton(
               onPressed: () {
-                navigationController.goBack();
+                navigationController.navigateTo(landingPage);
               },
               child: const Padding(
                 padding:

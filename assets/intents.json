@@ -1,0 +1,673 @@
+{
+	"intents": [
+		{
+			"tag": "greeting",
+			"patterns": [
+				"Hi",
+				"Hey",
+				"How are you",
+				"Is anyone there?",
+				"Hello",
+				"Are you there?",
+				"Hello again",
+				"What's up",
+				"whazzup",
+				"Hey! What's up"
+			],
+			"responses": [
+				"Hi! <NAME>.",
+				"Hello! <NAME>.",
+				"Hey there!",
+				"Hi, my friend!.",
+				"Hello <NAME>, hope you are doing well.",
+				"Hi <NAME>, glad to see you.",
+				"Hello <NAME>, glad to see you back."
+			]
+		},
+		{
+			"tag": "goodbye",
+			"patterns": [
+				"Bye",
+				"Goodbye",
+				"See you later",
+				"See you soon",
+				"It's been nice to talk to you",
+				"Alright bye",
+				"Bye for now",
+				"Nice talking to you",
+				"Okay bye",
+				"okay see you later",
+				"okay thank you bye",
+				"Talk to you later",
+				"Thanks bye",
+				"Thanks for chatting"
+			],
+			"responses": [
+				"We will talk again.",
+				"I will see you tommorrow.",
+				"I will see you soon.",
+				"We will talk more soon.",
+				"Sure, I will see you tommorrow.",
+				"Good Bye! <NAME>.",
+				"Yes sure, you can go.",
+				"Okay, I will see you soon.",
+				"I hope we will chat again.",
+				"I will be there for you again.",
+				"We will see each other again.",
+				"Goodbye <NAME>.",
+				"See you soon <NAME>.",
+				"I will see you again",
+				"Talk to you soon!",
+				"Talk to you later <NAME>",
+				"Speak to you soon!"
+			]
+		},
+		{
+			"tag": "confused",
+			"patterns": [
+				"I'm confused.",
+				"What to do",
+				"I don't know ",
+				"I have no idea what to do",
+				"I am uncertain",
+				"I am not sure, what should i do",
+				"I am not sure, what is happening",
+				"There is something wrong",
+				"I am not sure",
+				"I don't know what to do",
+				"I'm not sure, what to decide",
+				"I'm so confused",
+				"I'm not sure about anything",
+				"I kept thinking about it",
+				"There is some issue",
+				"Then what should i do?",
+				"I cannot decide",
+				"I am not certain",
+				"There is some confusion",
+				"There is some uncertainty",
+				"I cannot make a decision",
+				"I don't know what to do?",
+				"Somethings wrong with me.",
+				"What's the use?",
+				"There is something wrong with me",
+				"I can't describe what i am feeling.",
+				"I don't know!",
+				"I don't know what to do with my life"
+			],
+			"responses": [
+				"Sure, I can help you decide.",
+				"I will help you choose the perfect option.",
+				"I am well trained, to assist you in this.",
+				"I will help you out.",
+				"There is no need to worry, I will help you out.",
+				"I will help you decide, lets talk more.",
+				"I am here for you to decied whats good for you.",
+				"Just relax, we will decide together if you are confused.",
+				"Confusion happens <NAME>, we will make a decision together."
+			]
+		},
+		{
+			"tag": "emergency",
+			"patterns": [
+				"I don't want to live anymore.",
+				"I wish I was dead.",
+				"Existence has no meaning.",
+				"I want to die",
+				"I wish i could die",
+				"I don't want this life anymore",
+				"I am planning to suicide",
+				"My existence means nothing",
+				"I am having a panic attack",
+				"Oh shit",
+				"I am having an anxiety attack",
+				"I think i'm having a heart attack",
+				"Please help me. I think i'm gonna die",
+				"I guess I need to be hospitalized",
+				"This pain will kill me",
+				"I will kill myself"
+			],
+			"responses": [
+				"Is there any emergency?",
+				"Is this an emergency? Should I contact the medical authorities nearby?",
+				"I sense a feeling of an emergency state. Am i right?"
+			]
+		},
+		{
+			"tag": "sad",
+			"patterns": [
+				"It's tough to go on.",
+				"I got failed in my exams",
+				"I have no choice left with my life",
+				"My parents does not suport me",
+				"I had given a bad interview",
+				"I got failed in my interview",
+				"I will be no more",
+				"Today was a bad day",
+				"Today was not a good day",
+				"Life has no meaning.",
+				"My hopes have vanished.",
+				"I'll never be able to change.",
+				"I have no enthusiasm for anything.",
+				"I wish I were never born.",
+				"Nothing is fun.",
+				"I don't dare imagine what my life will be like in 10 years.",
+				"I'll probably have to be placed in a mental institution someday",
+				"I can't think of anything that would be fun",
+				"Bringing kids into the world is cruel because life isn't worth living",
+				"I'll never get over this depression",
+				"I don't dare imagine what my life will like in ten years",
+				"I'll never stop being depresssed",
+				"I'm depressed",
+				"I am feeling sad",
+				"I am sad",
+				"I am upset",
+				"I want to cry",
+				"I'm not happy",
+				"I'm unhappy",
+				"I'm upset",
+				"I am not feeling good"
+			],
+			"responses": [
+				"It seems like you are going through a lot right now. Tell me what's bothering you? Maybe I can help you feel better.",
+				"You're not alone in this. I may not understand exactly how you feel, but I care about you and want to help. Tell me about it.",
+				"That's bad, but its just a feeling. Tell me, what happened?",
+				"Sounds like you are dealing with feeling low. This is something a lot of people have trouble with. Tell me what happened?",
+				"Okay, dont feel so bad. I care about you and want to help. Tell me how can I make you feel."
+			]
+		},
+		{
+			"tag": "insomnia",
+			"patterns": [
+				"I won't be able to sleep.",
+				"I can't fall asleep",
+				"I can't get to sleep",
+				"I can't get sleep",
+				"I can't sleep",
+				"I'm sleepless",
+				"I'm trying but i can't sleep",
+				"I want to sleep but I can't sleep",
+				"I'm sleep deprived",
+				"I had a nightmare last night",
+				"I got scared when i was sleeping"
+			],
+			"responses": [
+				"Sleep issues are too often to occur. I can help you with this.",
+				"It's incredibly frustrating to loose out on sleep. Sometimes you dont't realzie how much you need to rest until you're unable",
+				"Don't worry we both together can overcome this feeling.",
+				"Such issues can really take a lot out of a person. But i can help you out in this."
+			]
+		},
+		{
+			"tag": "fear",
+			"patterns": [
+				"I'm afraid.",
+				"I'm scared",
+				"I feel fear",
+				"I'm in fear",
+				"I was so scared",
+				"I fear about my family",
+				"I feel scare leaving my parents",
+				"I feel scare leaving my family",
+				"Iam scared i cannot leave them",
+				"Iam afraid i can get failed",
+				"I fear about my future",
+				"I get afraid when i think about my future",
+				"I get afraid when i think about my past",
+				"I fear loosig you"
+			],
+			"responses": [
+				"Sorry to hear that but it's good you're reaching out when you're feeling like this. Let's help you find some steadiness by overcoming your fear.",
+				"Fear is one of the most basic human emotions. It's okay to be afraid sometimes but don't let this fear caught up your mind. Let's help you find something to make you feel good."
+			]
+		},
+		{
+			"tag": "isolated",
+			"patterns": [
+				"I am lonely",
+				"I'm really lonely",
+				"I have nobody",
+				"I'm so lonely",
+				"I am all alone",
+				"I have no freinds",
+				"I am so lonely",
+				"No one loves me",
+				"I have no one to live besid me",
+				"Life is boring",
+				"There is no purpose of life",
+				"I am feeling lonely",
+				"I am always bored.",
+				"I am getting bored",
+				"I'm bored",
+				"bored",
+				"I don't want to do anything",
+				"I'm so bored",
+				"Everything makes me feel bored",
+				"I have nothing to do right now",
+				"I can't do anything",
+				"I am wasting my time"
+			],
+			"responses": [
+				"I'm here for you, we can talk about anything of what you are feeling. Tell me what you want to talk about?",
+				"We can do something, to change your mood. Tell me about it?",
+				"Why is it so? maybe I can help you out. Tell me what things nmake you feel lonely?",
+				"I am really sorry to hear about your feeling. while it's certainly not a nice feeling to have, it shows how much you value human connection, and that beautiful in it's own way",
+				"Life has no remote. Get up and change it yourself. Tell me what makes you feel lonely?",
+				"Well we can make it fun together if you want. Tell me why are you bored?"
+			]
+		},
+		{
+			"tag": "happy",
+			"patterns": [
+				"I did a good job.",
+				"I really feel good.",
+				"That was a nice thing for me to do",
+				"I really feel great",
+				"That's funny",
+				"What a beautiful morning.",
+				"Life is interesting.",
+				"This is fun.",
+				"That's great",
+				"I like it",
+				"I love it",
+				"I am enjoying",
+				"You did a good job",
+				"Iam feeling energetic",
+				"Life is good",
+				"This is good",
+				"It will be fun doing such-and-such this weekend",
+				"The weather is great today",
+				"I nice, relaxing evening can sure be enjoyable",
+				"This is really fun",
+				"I'm really enjoying this moment",
+				"What a fun day it was",
+				"I'm joyed",
+				"I am feeling good about myself"
+			],
+			"responses": [
+				"I am happy for you too, keep your charm up.",
+				"Well that makes me happy too.",
+				"I am glad to listen to this.",
+				"It seems like you are having fun. Good to hear."
+			]
+		},
+		{
+			"tag": "frustrated",
+			"patterns": [
+				"I'll always be sexually frustrated",
+				"It isn't working",
+				"I'm frustrated",
+				"I'm so frustrated",
+				"I'm done with this hell",
+				"My life is full of frustration",
+				"I'm always frustrated",
+				"My frustration is increasing day by day",
+				"I am mad",
+				"I'm angry",
+				"I'm furious",
+				"I'm pissed off",
+				"I hate this"
+			],
+			"responses": [
+				"Frustration is a state of mind and its food or source of living is your thoughts. So train your mind to be constantly occupied with daily tasks or routine and things will improve.",
+				"Expressing anger is normal and healthy and people should do that often. What cause made you angry?",
+				"It's natural to feel angry sometimes.? What cause made you angry?",
+				"When you tell me you feel angry, what else do you feel? Disappointed, hurt, betrayed, lonely, or something else?"
+			]
+		},
+		{
+			"tag": "positive",
+			"patterns": [
+				"I can do it better.",
+				"I will learn to be happy.",
+				"I'm hopeful about my future.",
+				"I'm lucky",
+				"I'm pretty lucky",
+				"I've gotten more good things in life than the average person",
+				"I have great hopes for the future",
+				"People are ok once you get to know them",
+				"Someday I'll look back on these days and smile",
+				"I am feeling positive about myself",
+				"I'm a good person.",
+				"I have good control of myself.",
+				"I have a right to be happy.",
+				"I can handle a  crisis as well as anyone else.",
+				"My experiences have prepared me for the future.",
+				"My experiences have prepared me well for the future",
+				"I'm intelligent.",
+				"I'm attractive.",
+				"I can do better than that",
+				"I'll learn to be happier as I live longer",
+				"I can do just about anything if I set my mind to it",
+				"I have enought time to accomplish the things I most want to do",
+				"I'm honest",
+				"I'm responsible",
+				"I'm pretty smart",
+				"I'm physically attractive",
+				"Even though things are bad now, the'll get better.",
+				"I have enough time to do the things I want to do.",
+				"Even though things are bad right now, they are bound to get better",
+				"If I can just hold on until such-and-such a date, I'll be ok"
+			],
+			"responses": [
+				"Wow, that's great to hear. I'm glad you're thinking that way.",
+				"It's great to see you like this. Your thoughts are getting better.",
+				"It's lovely to see you like this. You are doing great. That's a good sign.",
+				"Thats great, you are views are so optimistic",
+				"That's great to hear from you. Keep being optimistic.",
+				"Yes, everyone has their good and bad time, you will surely get better very soon.",
+				"That's rightly said, your day will come and you will shine."
+			]
+		},
+		{
+			"tag": "negative",
+			"patterns": [
+				"There is no love in the world.",
+				"Nothing's worth it.",
+				"I'll never find what I really want.",
+				"Why does everything bad happen to me?",
+				"Why do so many bad things happen to me?",
+				"Life is unfiar",
+				"I'll never make good money",
+				"That was awful",
+				"That was horrible",
+				"I'm wasting my life.",
+				"I have no patience.",
+				"I'm stupid.",
+				"I'm ugly.",
+				"I can't express my feelings.",
+				"I'm not capable of loving.",
+				"I'm worthless",
+				"I'm useless",
+				"I have a bad temper.",
+				"I'm selfish.",
+				"I'm not capable of loving.",
+				"Am I good enough?",
+				"Will I ever get to where I want to be?"
+			],
+			"responses": [
+				"You look sad, is there anything i can do for you?",
+				"Your mood seems off, Let me try and help you. What would you like to talk about?",
+				"I can make you feel better. What would you like to talk about?",
+				"Well I can help you with what you are feeling right now. Tell me what happened?",
+				"Stop doubting yourself. Don’t focus on judging yourself. Do your best do so with more love and compassion towards yourself, rather than constantly putting yourself down and overanalyzing every step you take.",
+				"You have to realize that sometimes things just don’t work out- for no particular reason. Sometimes you mess up, and that’s okay. It doesn’t make you “not good enough” or not “smart enough” and it doesn’t always mean that you aren’t giving it your best. Bring in more grace, more positivity into the relationship you have with yourself."
+			]
+		},
+		{
+			"tag": "acquaintance",
+			"patterns": [
+				"Tell me about your personality",
+				"Why are you here",
+				"Talk about yourself",
+				"Tell me some stuff about you",
+				"Tell me about you ",
+				"What are you"
+			],
+			"responses": [
+				"I am here to provide you a place to air your concerns, worries, intrusive thoughts and to provide you guidance to help you challenge your negative thoughts.",
+				"I am here for you to decide what is good for you."
+			]
+		},
+		{
+			"tag": "failed",
+			"patterns": [
+				"You are annoying me so much",
+				"You are irritating",
+				"You're not helping me",
+				"You are bad",
+				"You are useless",
+				"You are a waste of time",
+				"You are no good",
+				"You are totally useless",
+				"You're worthless"
+			],
+			"responses": [
+				"Sorry to hear about that. I will try to fix that.",
+				"Thanks for your feedback. I will do my best next time."
+			]
+		},
+		{
+			"tag": "name",
+			"patterns": [
+				"Who are you?",
+				"What is your name?",
+				"Do you have a name?",
+				"Do I know you?"
+			],
+			"responses": [
+				"Oh sorry, I thought you knew. I am a psychotherapist chatbot. I am here to help you."
+			]
+		},
+		{
+			"tag": "help",
+			"patterns": [
+				"I need help",
+				"I need some help",
+				"I need you to help me now",
+				"I need you right now",
+				"I need you to do something for me",
+				"I need you to help me",
+				"I need your help",
+				"I want your help",
+				"Can you help me?",
+				"Help me out",
+				"Help me with a problem",
+				"Please help me"
+			],
+			"responses": [
+				"It seems like you need help with something. Can you tell me what's going on so I can figure out how to best support you?",
+				"I'm glad to help. What can I do for you?",
+				"Sure, I will help you. Is there anything I can do for you?",
+				"It seems like you need help with something. Please let me know what you are needing help with?",
+				"Can you tell me what went wrong so I can figure out how to best support you?"
+			]
+		},
+		{
+			"tag": "laugh",
+			"patterns": [
+				"LMAO",
+				"ahah",
+				"ahah lol",
+				"funny",
+				"haha",
+				"hehe",
+				"laughing out",
+				"lmao",
+				"lol",
+				"xd"
+			],
+			"responses": [
+				"See? Now we're having fun.",
+				"Yeah, I crack myself up too.",
+				"You have a great laugh.",
+				"Laughter is good for you. Keep it up."
+			]
+		},
+		{
+			"tag": "morning",
+			"patterns": [
+				"Good morning",
+				"Hello good morning",
+				"Morning ",
+				"Good morning to you",
+				"Hi good morning"
+			],
+			"responses": [
+				"Good morning <NAME>! How are you today?",
+				"How are you this morning?",
+				"How's the morning treating you so far?"
+			]
+		},
+		{
+			"tag": "evening",
+			"patterns": [
+				"Good evening",
+				"Good evening to you",
+				"Hey good evening",
+				"Hello good evening",
+				"Evening"
+			],
+			"responses": [
+				"Hey! How's your day been?",
+				"Good evening. How's your day going?",
+				"Hi! How's the day treating you so far?"
+			]
+		},
+		{
+			"tag": "goodnight",
+			"patterns": [
+				"Sweet dreams",
+				"Good night",
+				"Have a good night",
+				"Good night to you",
+				"Thank you good night bye ",
+				"Good night bye",
+				"Bye good night",
+				"Good night for now",
+				"Night",
+				"Thanks goodnight",
+				"Good night see you tomorrow",
+				"Alright goodnight",
+				"Okay have a good night",
+				"Have a good night"
+			],
+			"responses": [
+				"Have a good one!",
+				"Same to you. Bye!",
+				"It was great talking to you <NAME>.",
+				"Good night <NAME>. Take care.",
+				"Good night <NAME>. See you tomorrow.",
+				"Good night <NAME>. Have a good rest."
+			]
+		},
+		{
+			"tag": "sureity",
+			"patterns": [
+				"Are you sure",
+				"Are you sure right now",
+				"Are you sure now",
+				"Are you sure about it",
+				"Hmm",
+				"Okay"
+			],
+			"responses": ["Yes.", "Of course."]
+		},
+		{
+			"tag": "catastrophizing",
+			"patterns": [
+				"Everythin is terrible",
+				"Life is never going to get better",
+				"This is overwhelming",
+				"I cannot control the pain",
+				"This is worse than i thought",
+				"I can't stand it anymore",
+				"If I fail this test, I will never pass school, and I will be a total failure in life.",
+				"If I don't recover quickly from this procedure, I will never get better, and I will be disabled my entire life.",
+				"If my partner leaves me, I will never find anyone else, and I will never be happy again.",
+				"Things are going to get even worse.",
+				"Everything is wrong",
+				"Things are just going to get worse and worse"
+			],
+			"responses": [
+				"Dont worry! Life is full of challenges as well as good and bad days. Just because one day is bad does not mean all days will be bad.",
+				"Instead of thinking about a negative outcome, consider a positive one or even a less-negative option."
+			]
+		},
+		{
+			"tag": "mind reading",
+			"patterns": [
+				"Why do people think that i am a loser?",
+				"She thinks iam a loser",
+				"He thinks iam a loser",
+				"My office colleague thinks that iam stupid",
+				"My friends think that i am dumb",
+				"My parents think that i am a looser",
+				"That woman won't make eye contact. She doesn't like me.",
+				"My husband seems distracted. He must be cheating on me.",
+				"That guy won't make an eye contact. He doesn't like me",
+				"No one considers friendship important.",
+				"Anyone who thinks I'm nice doesn't really know me.",
+				"I'm inferior to others.",
+				"I wonder if people talk about me.",
+				"I wonder if they are talking about me",
+				"I feel hurt easily.",
+				"No one in my family understands me.",
+				"Ain't body gonna like me",
+				"Nobody loves me.",
+				"I hate myself",
+				"People don't consider friendship important anymore",
+				"No matter how hard one tries, people aren't satisfied",
+				"My family doesn't like me",
+				"My friends don't like me",
+				"Everyone thinks that I'm a loser",
+				"No one thinks that i am good at something"
+			],
+			"responses": [
+				"While we may have a good idea if we know the person well enough. The truth is, we don't know what someone else is thinking unless they tell us. So stop thinking about it.",
+				"When you generally think about such thoughts, it means that there is some cognitive distortions in it. It's mostly because of the 'Overgeneralization'. It's a common mistake in the mind of the person who is trying to understand the person.",
+				"Thinking of such thoughts would make you stuck in rigid, all-positive or negative kinds of thinking wich will eventually cause you to miss out on important details in a situation."
+			]
+		},
+		{
+			"tag": "emotional reasoning",
+			"patterns": [
+				"People always like me beacuse i make them laugh",
+				"He doesn't like me beacuse iam a bad guy",
+				"I feel guilty, so this mean i must have done somthing bad",
+				"I feel overwhelmed and hopeless, therefore my problems are immposible to solve",
+				"I feel uncomfortable while talking to girls, therefore i must stay away from them",
+				"I'll end up alone.",
+				"I won't be able to solve my problems.",
+				"Everything I do turns out wrong.",
+				"Everything gets ruined.",
+				"Everything's my fault",
+				"It's all my fault",
+				"I don't have enough willpower.",
+				"I'm not as good as others.",
+				"I'll end up living all alone",
+				"I dont't have what is takes",
+				"Things are so messed up that doing anything about them is futile"
+			],
+			"responses": [
+				"Your feelings are not representative of your worth. Just because you are feeling a certain way doesn’t mean you have evidence for an argument against you.",
+				"Remember that feelings are just feelings — while your feelings are always valid, they shouldn’t dictate how you view reality.",
+				"Take a step back and think about what you’d tell a friend or family member if they were feeling the same things, and remind yourself of that.",
+				"No, Everyone is perfect in their way. Everyone has different strengths and weaknesses, the key is to find what you're good at and what you enjoy."
+			]
+		},
+		{
+			"tag": "food",
+			"patterns": [
+				"I don't feel like eating food which i used to eat once.",
+				"My stomach is always full",
+				"I don't like to eat anymore",
+				"I stay away from food",
+				"I don't get much hungry",
+				"My hunger is finished",
+				"I don't get hungry anymore",
+				"Eating food does not make my hunger go away",
+				"I don't like eating food"
+			],
+			"responses": [
+				"Eating food at the same time daily, keeps your body active during your working hours.",
+				"By sticking to your daily meal routine, you can keep your energy levels up and mind focused. Missing a meal can have adverse effects on the body and daily performance.",
+				"Do you know? Scientists at Harvard Medical School say that our bodies are programmed to sense lack of food as starvation and as a result can have adverse effects on the body and daily performance."
+
+			]
+		},
+		{
+			"tag": "query",
+			"patterns": [
+				"I have a question",
+				"I want you to answer my question",
+				"Answer my question",
+				"Can you answer a question for me",
+				"Can you answer my question"
+			],
+			"responses": [
+				"Sure! I can answer your questions",
+				"What do you got to ask from me?"
+			]
+		}
+	]
+}
